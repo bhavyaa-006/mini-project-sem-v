@@ -1,0 +1,12 @@
+name,aliases,category,hazard_level,regulatory_source,reason,scientific_details,e_number
+Sodium Benzoate,"E211,benzoate",food,moderate,FSSAI,Preservative linked to hyperactivity in children,Can form benzene when combined with Vitamin C,E211
+Aspartame,"E951,APM",food,moderate,FSSAI,Artificial sweetener; controversy over safety at high doses,Breaks down into phenylalanine methanol and aspartic acid,E951
+Tartrazine,"E102,FD&C Yellow 5",food,high,EWG,Synthetic azo dye linked to allergic reactions and hyperactivity,Banned in Norway and Austria,E102
+Monosodium Glutamate,"MSG,E621",food,low,FSSAI,Flavour enhancer; can cause headaches in sensitive individuals,,E621
+Potassium Bromate,"KBrO3",food,high,FSSAI,Flour improver banned in India and EU; potential carcinogen,,
+Sodium Lauryl Sulfate,"SLS,Sodium Laureth Sulfate",cosmetic,moderate,EWG,Skin irritant and endocrine disruptor at high concentrations,,
+Parabens,"Methylparaben,Propylparaben,Butylparaben",cosmetic,moderate,CIR,Preservatives with weak oestrogenic activity; linked to hormonal disruption,,
+Formaldehyde,"Formalin,Methanol releasing agents",cosmetic,high,EWG,Carcinogen; released by certain preservative ingredients,,
+Phthalates,"DBP,DEHP,Dibutyl Phthalate",cosmetic,high,EU SCCS,Endocrine disruptors; restricted in EU cosmetics,,
+Hydroquinone,,cosmetic,high,BIS,Skin lightener; linked to cancer risk; banned in EU cosmetics,,
+Triclosan,,cosmetic,moderate,EWG,Antimicrobial; potential endocrine disruptor; banned in some countries,,
