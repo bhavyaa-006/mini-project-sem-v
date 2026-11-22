@@ -1,0 +1,254 @@
+{
+	"info": {
+		"_postman_id": "safescan-packcheck-api-v1",
+		"name": "SafeScan & PackCheck API v1",
+		"description": "Complete API collection for SafeScan backend (FastAPI + PostgreSQL)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/health/",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "health", ""]
+				}
+			}
+		},
+		{
+			"name": "Auth - Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Vishnu Raj\",\n    \"email\": \"vishnu@example.com\",\n    \"password\": \"SecurePass123!\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/auth/register",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "auth", "register"]
+				}
+			}
+		},
+		{
+			"name": "Auth - Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if (jsonData.access_token) {",
+							"    pm.environment.set(\"jwt_token\", jsonData.access_token);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"vishnu@example.com\",\n    \"password\": \"SecurePass123!\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/auth/login",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "auth", "login"]
+				}
+			}
+		},
+		{
+			"name": "Products - Get by Barcode",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/products/8901030920431?category=food",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "products", "8901030920431"],
+					"query": [
+						{
+							"key": "category",
+							"value": "food"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "Analyze - Full Product Analysis",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"barcode\": \"8901030920431\",\n    \"product_name\": \"Maggie Noodles 2-Minute\",\n    \"category\": \"food\",\n    \"ocr_text\": \"MRP: ₹14 Net Wt. 70g Best Before: 12/2026 Mfg. by: Nestle India Ltd FSSAI: 10012011000168 Ingredients: Wheat Flour, Palm Oil, Salt, Hydrolysed Groundnut Protein, Sodium Benzoate E211\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/analyze/",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "analyze", ""]
+				}
+			}
+		},
+		{
+			"name": "Scan - Upload Label Photo (OCR)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": ""
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/scan/upload",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "scan", "upload"]
+				}
+			}
+		},
+		{
+			"name": "User - Get Profile",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/v1/user/profile",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "user", "profile"]
+				}
+			}
+		},
+		{
+			"name": "User - Update Profile (Allergies/Skin)",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"skin_type\": \"oily\",\n    \"allergies\": [\"gluten\", \"peanuts\"],\n    \"dietary_preferences\": [\"vegetarian\"]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/user/profile",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "user", "profile"]
+				}
+			}
+		},
+		{
+			"name": "History - Get User Scans",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/v1/history/",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "history", ""]
+				}
+			}
+		},
+		{
+			"name": "Report - Download PDF Audit Report",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/report/{{scan_id}}/pdf",
+					"host": ["{{base_url}}"],
+					"path": ["report", "{{scan_id}}", "pdf"]
+				}
+			}
+		},
+		{
+			"name": "Alternatives - Get Better Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/alternatives/{{product_id}}",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "alternatives", "{{product_id}}"]
+				}
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000"
+		},
+		{
+			"key": "jwt_token",
+			"value": ""
+		},
+		{
+			"key": "scan_id",
+			"value": "demo-scan-id"
+		},
+		{
+			"key": "product_id",
+			"value": "demo-product-id"
+		}
+	]
+}
