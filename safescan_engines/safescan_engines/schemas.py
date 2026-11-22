@@ -49,7 +49,7 @@ class NutrientProfile(BaseModel):
     sodium_mg: float | None = Field(default=None, ge=0)
     fiber_g: float | None = Field(default=None, ge=0)
     protein_g: float | None = Field(default=None, ge=0)
-    fvl_percent: float | None = Field(default=None, ge=0)
+    fvl_percent: float | None = Field(default=None, ge=0, le=100)
 
 
 class NormalizedProduct(BaseModel):
