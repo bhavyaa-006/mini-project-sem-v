@@ -10,6 +10,7 @@ from app.core.config import settings
 from app.core.rate_limit import limiter
 from app.db.base import Base
 from app.db.session import engine
+import app.models  # noqa: F401 - ensure all models are registered in SQLAlchemy registry
 
 # Import all route modules
 from app.api.routes import (

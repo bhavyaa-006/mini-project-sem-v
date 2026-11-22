@@ -4,9 +4,10 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.main import app
+from app.main import app as fastapi_app
 from app.db.base import Base
 from app.api.deps import get_db
+from app.models import User, Product, Ingredient, HazardIngredient, Scan, Result  # noqa: F401
 
 TEST_DB_URL = "sqlite:///./test.db"
 
@@ -31,7 +32,7 @@ def setup_db():
 
 @pytest.fixture()
 def client():
-    app.dependency_overrides[get_db] = override_get_db
-    with TestClient(app) as c:
+    fastapi_app.dependency_overrides[get_db] = override_get_db
+    with TestClient(fastapi_app) as c:
         yield c
-    app.dependency_overrides.clear()
+    fastapi_app.dependency_overrides.clear()
