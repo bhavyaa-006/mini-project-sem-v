@@ -6,10 +6,14 @@ from safescan_engines.db import Base
 
 class HazardIngredient(Base):
     __tablename__ = "hazard_ingredients"
+    __table_args__ = (
+        UniqueConstraint("canonical_name", "domain", name="uq_hazard_name_domain"),
+        UniqueConstraint("canonical_norm", "domain", name="uq_hazard_norm_domain"),
+    )
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    canonical_name: Mapped[str] = mapped_column(String(255), unique=True, index=True, nullable=False)
-    canonical_norm: Mapped[str] = mapped_column(String(255), unique=True, index=True, nullable=False)
+    canonical_name: Mapped[str] = mapped_column(String(255), index=True, nullable=False)
+    canonical_norm: Mapped[str] = mapped_column(String(255), index=True, nullable=False)
     severity: Mapped[str] = mapped_column(String(32), nullable=False)
     domain: Mapped[str] = mapped_column(String(32), index=True, nullable=False)
     reason: Mapped[str] = mapped_column(Text, nullable=False)

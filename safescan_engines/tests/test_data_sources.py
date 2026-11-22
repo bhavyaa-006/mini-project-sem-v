@@ -17,6 +17,20 @@ from safescan_engines.schemas import ProductDomain
 
 
 def test_normalizer_sodium_fallback_and_missing_fields():
+    categorical = normalize_off_product({
+        "status": 1,
+        "product": {
+            "code": "4",
+            "categories_tags": [
+                "en:snacks",
+                "en:sweet-snacks",
+                "en:biscuits-and-cakes",
+                "en:chocolate-biscuits",
+            ],
+        },
+    })
+    assert categorical.category == "chocolate-biscuits"
+
     sodium = normalize_off_product({
         "status": 1,
         "product": {

@@ -22,8 +22,11 @@ def _safe_float(value: object) -> float | None:
 
 def _category(product: dict) -> str | None:
     tags = product.get("categories_tags")
-    if isinstance(tags, list) and tags:
-        return str(tags[0]).removeprefix("en:").strip() or None
+    if isinstance(tags, list):
+        for tag in reversed(tags):
+            category = str(tag).removeprefix("en:").strip()
+            if category:
+                return category
     return None
 
 

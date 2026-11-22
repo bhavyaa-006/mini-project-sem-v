@@ -4,13 +4,12 @@ from collections.abc import Sequence
 from pathlib import Path
 
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from safescan_engines.health.ingredient_matcher import HazardEntry, normalize_token
-from safescan_engines.health import ingredient_matcher
 from safescan_engines.hazard_db.schema import HazardIngredient, IngredientAlias
-from safescan_engines.hazard_db.validators import HazardRowSchema, read_validated_csv
-from safescan_engines.schemas import ProductDomain
+from safescan_engines.hazard_db.validators import HazardRowSchema
+from safescan_engines.schemas import ProductDomain, SeverityTier
 
 
 CSV_HEADER = [
@@ -24,7 +23,7 @@ CSV_HEADER = [
 
 
 def merge_hazard_csvs(source_paths: Sequence[Path], output_path: Path) -> int:
-    merged: OrderedDict[str, dict[str, object]] = OrderedDict()
+    merged: OrderedDict[tuple[str, str], dict[str, object]] = OrderedDict()
     for source_path in source_paths:
         with source_path.open("r", encoding="utf-8-sig", newline="") as handle:
             reader = csv.DictReader(handle)
@@ -35,22 +34,24 @@ def merge_hazard_csvs(source_paths: Sequence[Path], output_path: Path) -> int:
                 norm = normalize_token(canonical)
                 if not norm:
                     continue
+                domain = str(row.get("domain") or "").strip().lower()
+                key = (norm, domain)
                 alias_text = str(row.get("aliases") or "")
                 aliases = [
                     alias.strip()
                     for alias in alias_text.split("|")
                     if alias.strip()
                 ]
-                if norm not in merged:
-                    merged[norm] = {
+                if key not in merged:
+                    merged[key] = {
                         "canonical_name": canonical,
                         "aliases": OrderedDict(),
                         "severity": str(row.get("severity") or "").strip(),
-                        "domain": str(row.get("domain") or "").strip(),
+                        "domain": domain,
                         "reason": str(row.get("reason") or "").strip(),
                         "source_url": str(row.get("source_url") or "").strip(),
                     }
-                entry = merged[norm]
+                entry = merged[key]
                 alias_map = entry["aliases"]
                 assert isinstance(alias_map, OrderedDict)
                 for alias in aliases:
@@ -82,7 +83,10 @@ def upsert_hazards(session: Session, rows: Sequence[HazardRowSchema]) -> dict[st
     for row in rows:
         canonical_norm = normalize_token(row.canonical_name)
         ingredient = session.scalar(
-            select(HazardIngredient).where(HazardIngredient.canonical_norm == canonical_norm)
+            select(HazardIngredient).where(
+                HazardIngredient.canonical_norm == canonical_norm,
+                HazardIngredient.domain == row.domain.value,
+            )
         )
         if ingredient is None:
             ingredient = HazardIngredient(
@@ -121,14 +125,16 @@ def load_catalog_from_db(
     session: Session,
     domain: ProductDomain | None = None,
 ) -> list[HazardEntry]:
-    statement = select(HazardIngredient).order_by(HazardIngredient.canonical_name)
+    statement = (
+        select(HazardIngredient)
+        .options(selectinload(HazardIngredient.aliases))
+        .order_by(HazardIngredient.canonical_name)
+    )
     if domain is not None:
         statement = statement.where(HazardIngredient.domain == domain.value)
     ingredients = session.scalars(statement).all()
     catalog: list[HazardEntry] = []
     for ingredient in ingredients:
-        from safescan_engines.schemas import SeverityTier
-
         catalog.append(
             HazardEntry(
                 canonical_name=ingredient.canonical_name,
