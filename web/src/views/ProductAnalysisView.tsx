@@ -11,6 +11,7 @@ import { ScoreGauge } from '../components/ScoreGauge';
 import { LegalMetrologyCard } from '../components/LegalMetrologyCard';
 import { FlaggedIngredientsList } from '../components/FlaggedIngredientsList';
 import { AlternativeProductsSection } from '../components/AlternativeProductsSection';
+import { HeroMascotScene, FeatureShowcaseCards } from '../components/MascotIllustration';
 import {
   Barcode,
   UploadCloud,
@@ -58,7 +59,7 @@ export const ProductAnalysisView: React.FC = () => {
     });
   }, []);
 
-  // Quick switch between the 2 realistic Indian mock products
+  // Quick switch between products
   const handleProductSwitch = (product: ProductAnalysis) => {
     setCurrentProduct(product);
     if (product.barcode) {
@@ -238,343 +239,386 @@ export const ProductAnalysisView: React.FC = () => {
   const personalAlerts = detectPersonalizedAlerts();
 
   return (
-    <div className="space-y-8 pb-14 font-sans">
-      {/* Hero Header & Quick Sample Buttons */}
-      <section className="bg-gradient-to-b from-[#F9FAF8] to-white border-b border-neutral-100 py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto space-y-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-[#27AE60]/10 text-[#1E8449] border border-[#27AE60]/20 mb-2">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>AI Package &amp; Label Verification Engine</span>
+    <div className="space-y-10 pb-16 font-sans">
+      {/* YUKA-STYLE SPLIT HERO WITH SPROUT MASCOT SCENE */}
+      <section className="bg-gradient-to-b from-[#F9FAF8] via-white to-white border-b border-neutral-100/90 pt-10 sm:pt-14 pb-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Side: Editorial Headline, Subtitle, & Primary CTAs */}
+            <div className="lg:col-span-7 space-y-6 text-left">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#27AE60]/10 text-[#1E8449] border border-[#27AE60]/20 shadow-2xs">
+                <Sparkles className="w-4 h-4 text-[#27AE60]" />
+                <span>100% Independent Health &amp; Statutory Analysis</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight">
-                Scan, Evaluate &amp; Verify Any Packaged Good
+
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-neutral-900 tracking-tight leading-[1.12]">
+                Make the{' '}
+                <span className="font-handwritten text-[#27AE60] text-4xl sm:text-6xl lg:text-7xl block sm:inline">
+                  right choices
+                </span>{' '}
+                for your health &amp; pantry
               </h1>
-              <p className="text-xs sm:text-sm text-neutral-500 mt-1 max-w-2xl leading-relaxed">
-                Inspect nutritional balance, ingredient safety risks, and statutory Legal
-                Metrology declarations in compliance with FSSAI &amp; PCR 2011 standards.
+
+              <p className="text-sm sm:text-base text-neutral-600 leading-relaxed max-w-xl">
+                Scan food barcodes or snap cosmetic product labels. SafeScan decodes nutritional
+                density, hidden toxic chemicals, and checks mandatory Indian Legal Metrology
+                declarations (MRP, Expiry, FSSAI) with zero commercial advertising.
               </p>
-            </div>
 
-            {/* Quick Sample Selector for the 2 Indian Products */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 bg-white p-2 rounded-2xl border border-neutral-200 shadow-xs">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 px-2 py-1">
-                Quick Samples:
-              </span>
+              {/* Primary CTAs */}
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const el = document.getElementById('scanner-card');
+                    el?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl text-sm font-extrabold bg-[#27AE60] hover:bg-[#1E8449] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
+                >
+                  <Barcode className="w-4 h-4" />
+                  <span>Scan a Product Now</span>
+                </button>
 
-              <button
-                type="button"
-                onClick={() => handleProductSwitch(mockFoodProduct)}
-                className={`px-3 py-2 rounded-xl text-xs font-bold transition-all text-left flex items-center gap-2 ${
-                  currentProduct.id === mockFoodProduct.id
-                    ? 'bg-[#27AE60] text-white shadow-xs'
-                    : 'text-neutral-600 hover:bg-neutral-100'
-                }`}
-              >
-                <span className="w-2 h-2 rounded-full bg-white shrink-0" />
-                <div>
-                  <div className="leading-tight">Amul Taaza Milk</div>
-                  <div className="text-[10px] opacity-85 font-medium">
-                    Food • Nutri-Score A (92/100)
-                  </div>
-                </div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleProductSwitch(mockCosmeticProduct)}
-                className={`px-3 py-2 rounded-xl text-xs font-bold transition-all text-left flex items-center gap-2 ${
-                  currentProduct.id === mockCosmeticProduct.id
-                    ? 'bg-[#E74C3C] text-white shadow-xs'
-                    : 'text-neutral-600 hover:bg-neutral-100'
-                }`}
-              >
-                <span className="w-2 h-2 rounded-full bg-white shrink-0" />
-                <div>
-                  <div className="leading-tight">Herbal Silk Shampoo</div>
-                  <div className="text-[10px] opacity-85 font-medium">
-                    Cosmetic • Non-Compliant (38/100)
-                  </div>
-                </div>
-              </button>
-            </div>
-          </div>
-
-          {/* TWO INTERACTIVE INPUT TABS: Tab A (Barcode) & Tab B (Photo OCR) */}
-          <div className="bg-white rounded-3xl border border-neutral-200/90 p-5 sm:p-6 shadow-xs">
-            {/* Tab Navigation */}
-            <div className="flex items-center gap-3 border-b border-neutral-100 pb-4 mb-5">
-              <button
-                type="button"
-                onClick={() => setActiveTab('barcode')}
-                className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-                  activeTab === 'barcode'
-                    ? 'bg-[#27AE60] text-white shadow-sm'
-                    : 'bg-[#F9FAF8] text-neutral-600 hover:text-neutral-900 border border-neutral-200'
-                }`}
-              >
-                <Barcode className="w-4 h-4" />
-                <span>Tab A — Manual Barcode Entry</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab('ocr')}
-                className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-                  activeTab === 'ocr'
-                    ? 'bg-[#27AE60] text-white shadow-sm'
-                    : 'bg-[#F9FAF8] text-neutral-600 hover:text-neutral-900 border border-neutral-200'
-                }`}
-              >
-                <UploadCloud className="w-4 h-4" />
-                <span>Tab B — Label Photo Upload (OCR Fallback)</span>
-              </button>
-            </div>
-
-            {/* TAB A: Manual Barcode Entry */}
-            {activeTab === 'barcode' && (
-              <div className="space-y-4">
-                <form onSubmit={handleBarcodeSubmit} className="flex flex-col sm:flex-row gap-3">
-                  <div className="relative flex-1">
-                    <Barcode className="w-5 h-5 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                    <input
-                      type="text"
-                      value={barcodeInput}
-                      onChange={(e) => {
-                        setBarcodeInput(e.target.value);
-                        if (barcodeError) setBarcodeError(null);
-                      }}
-                      placeholder="Enter 8–14 digit barcode (e.g., 8901262010058 or 8904005928114)..."
-                      className="w-full pl-11 pr-4 py-2.5 text-sm rounded-xl border border-neutral-200 bg-[#F9FAF8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#27AE60] focus:border-transparent font-mono transition-all"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isCheckingBarcode}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#27AE60] hover:bg-[#1E8449] text-white shadow-sm transition-all active:scale-[0.98] disabled:opacity-60 shrink-0"
-                  >
-                    {isCheckingBarcode ? (
-                      <>
-                        <RefreshCw className="w-4 h-4 animate-spin" />
-                        <span>Checking Product...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Search className="w-4 h-4" />
-                        <span>Check Product</span>
-                      </>
-                    )}
-                  </button>
-                </form>
-
-                {/* Error message */}
-                {barcodeError && (
-                  <p className="text-xs text-rose-600 font-medium flex items-center gap-1.5 animate-in fade-in">
-                    <AlertOctagon className="w-3.5 h-3.5" />
-                    <span>{barcodeError}</span>
-                  </p>
-                )}
-
-                {/* Helpful Barcode Presets */}
-                <div className="flex flex-wrap items-center gap-2 pt-1 text-xs text-neutral-500">
-                  <span className="font-semibold text-neutral-400">Quick Test Barcodes:</span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setBarcodeInput('8901262010058');
-                      handleProductSwitch(mockFoodProduct);
-                    }}
-                    className="px-2.5 py-1 rounded-lg bg-[#F9FAF8] border border-neutral-200 hover:border-emerald-300 font-mono text-[11px] text-neutral-700"
-                  >
-                    8901262010058 (Amul Milk)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setBarcodeInput('8904005928114');
-                      handleProductSwitch(mockCosmeticProduct);
-                    }}
-                    className="px-2.5 py-1 rounded-lg bg-[#F9FAF8] border border-neutral-200 hover:border-rose-300 font-mono text-[11px] text-neutral-700"
-                  >
-                    8904005928114 (Herbal Silk Shampoo)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setBarcodeInput('8901262031164');
-                      handleBarcodeSubmit();
-                    }}
-                    className="px-2.5 py-1 rounded-lg bg-[#F9FAF8] border border-neutral-200 hover:border-emerald-300 font-mono text-[11px] text-neutral-700"
-                  >
-                    8901262031164 (Generic EAN-13)
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const nextProduct =
+                      currentProduct.id === mockFoodProduct.id
+                        ? mockCosmeticProduct
+                        : mockFoodProduct;
+                    handleProductSwitch(nextProduct);
+                  }}
+                  className="inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl text-sm font-bold bg-[#F9FAF8] hover:bg-neutral-100 text-neutral-800 border border-neutral-200 transition-all active:scale-[0.98]"
+                >
+                  <RefreshCw className="w-4 h-4 text-[#27AE60]" />
+                  <span>Try Sample Scan</span>
+                </button>
               </div>
-            )}
 
-            {/* TAB B: Label Photo Upload (OCR Fallback) */}
-            {activeTab === 'ocr' && (
-              <div className="space-y-4">
-                <div
-                  onDragOver={(e) => {
-                    e.preventDefault();
-                    setDragActive(true);
-                  }}
-                  onDragLeave={() => setDragActive(false)}
-                  onDrop={(e) => {
-                    e.preventDefault();
-                    setDragActive(false);
-                    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-                      handleFileChange(e.dataTransfer.files[0]);
-                    }
-                  }}
-                  onClick={() => fileInputRef.current?.click()}
-                  className={`p-6 sm:p-8 rounded-2xl border-2 border-dashed text-center cursor-pointer transition-all ${
-                    dragActive
-                      ? 'border-[#27AE60] bg-[#27AE60]/5'
-                      : 'border-neutral-200 hover:border-emerald-300 bg-[#F9FAF8]'
+              {/* Quick Sample Selector Pills */}
+              <div className="pt-2 flex flex-wrap items-center gap-2 text-xs">
+                <span className="text-neutral-400 font-semibold text-[11px] uppercase tracking-wider">
+                  Quick test samples:
+                </span>
+                <button
+                  type="button"
+                  onClick={() => handleProductSwitch(mockFoodProduct)}
+                  className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
+                    currentProduct.id === mockFoodProduct.id
+                      ? 'bg-[#1E8449] text-white shadow-2xs'
+                      : 'bg-white text-neutral-700 border border-neutral-200 hover:border-emerald-300'
                   }`}
                 >
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                      if (e.target.files && e.target.files[0]) {
-                        handleFileChange(e.target.files[0]);
-                      }
-                    }}
-                    className="hidden"
-                  />
-
-                  {previewUrl ? (
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                      <img
-                        src={previewUrl}
-                        alt="Uploaded package preview"
-                        className="w-24 h-24 object-cover rounded-xl border border-neutral-300 shadow-xs"
-                      />
-                      <div className="text-left">
-                        <p className="text-xs font-bold text-neutral-900">{selectedFile?.name}</p>
-                        <p className="text-[11px] text-neutral-500">
-                          {((selectedFile?.size || 0) / (1024 * 1024)).toFixed(2)} MB • Ready for OCR processing
-                        </p>
-                        <span className="text-[11px] text-[#27AE60] font-semibold mt-1 inline-block">
-                          Click to select a different photo
-                        </span>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="space-y-2">
-                      <div className="w-12 h-12 rounded-2xl bg-[#27AE60]/10 text-[#1E8449] flex items-center justify-center mx-auto">
-                        <ImageIcon className="w-6 h-6 text-[#27AE60]" />
-                      </div>
-                      <p className="text-sm font-bold text-neutral-800">
-                        Drag and drop package photo, or <span className="text-[#27AE60]">browse files</span>
-                      </p>
-                      <p className="text-xs text-neutral-400">
-                        Supports high-resolution JPG, PNG, WEBP of back-of-pack ingredients &amp; MRP panels (max 10MB)
-                      </p>
-                    </div>
-                  )}
-                </div>
-
-                {ocrError && (
-                  <p className="text-xs text-rose-600 font-medium flex items-center gap-1.5 animate-in fade-in">
-                    <AlertOctagon className="w-3.5 h-3.5" />
-                    <span>{ocrError}</span>
-                  </p>
-                )}
-
-                {/* Animated 4-step OCR Analysis Progress Flow */}
-                {isAnalyzingOcr && (
-                  <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-3 animate-in fade-in">
-                    <div className="flex items-center justify-between text-xs font-bold text-[#1E8449]">
-                      <span className="flex items-center gap-2">
-                        <RefreshCw className="w-4 h-4 animate-spin text-[#27AE60]" />
-                        <span>OCR Pipeline Executing...</span>
-                      </span>
-                      <span>Step {ocrStep + 1} of 4</span>
-                    </div>
-
-                    {/* Progress Bar */}
-                    <div className="w-full bg-emerald-100 rounded-full h-2 overflow-hidden">
-                      <div
-                        className="bg-[#27AE60] h-full transition-all duration-500 ease-out"
-                        style={{ width: `${((ocrStep + 1) / 4) * 100}%` }}
-                      />
-                    </div>
-
-                    {/* 4 Step Items */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-1">
-                      {ocrSteps.map((stepDesc, idx) => {
-                        const isDone = ocrStep > idx;
-                        const isCurrent = ocrStep === idx;
-                        return (
-                          <div
-                            key={idx}
-                            className={`flex items-center gap-2 p-2 rounded-lg transition-all ${
-                              isCurrent
-                                ? 'bg-white font-bold text-[#1E8449] shadow-2xs'
-                                : isDone
-                                ? 'text-neutral-600'
-                                : 'text-neutral-400 opacity-60'
-                            }`}
-                          >
-                            <span
-                              className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0 ${
-                                isDone
-                                  ? 'bg-[#27AE60] text-white'
-                                  : isCurrent
-                                  ? 'bg-emerald-200 text-[#1E8449] animate-pulse'
-                                  : 'bg-neutral-200 text-neutral-500'
-                              }`}
-                            >
-                              {isDone ? '✓' : idx + 1}
-                            </span>
-                            <span className="truncate">{stepDesc}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                {/* Analyze Button */}
-                <div className="flex items-center justify-between pt-1">
-                  <span className="text-xs text-neutral-400">
-                    Extracts text, identifies FSSAI numbers, verifies Rule 6 MRP, and audits ingredients.
-                  </span>
-
-                  <button
-                    type="button"
-                    onClick={handleStartOcrAnalysis}
-                    disabled={!selectedFile || isAnalyzingOcr}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#27AE60] hover:bg-[#1E8449] text-white shadow-sm transition-all active:scale-[0.98] disabled:opacity-50"
-                  >
-                    <Sparkles className="w-4 h-4" />
-                    <span>Run OCR Analysis</span>
-                  </button>
-                </div>
+                  Amul Milk (92/100)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleProductSwitch(mockCosmeticProduct)}
+                  className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
+                    currentProduct.id === mockCosmeticProduct.id
+                      ? 'bg-[#E74C3C] text-white shadow-2xs'
+                      : 'bg-white text-neutral-700 border border-neutral-200 hover:border-rose-300'
+                  }`}
+                >
+                  Herbal Silk Shampoo (38/100)
+                </button>
               </div>
-            )}
-          </div>
-
-          {/* Toast Notification */}
-          {statusNotification && (
-            <div className="p-3.5 rounded-xl bg-emerald-50 text-[#1E8449] text-xs font-bold flex items-center gap-2 animate-in fade-in border border-emerald-200 shadow-2xs">
-              <CheckCircle className="w-4 h-4 text-[#27AE60]" />
-              <span>{statusNotification}</span>
             </div>
-          )}
+
+            {/* Right Side: HeroMascotScene */}
+            <div className="lg:col-span-5 flex justify-center">
+              <HeroMascotScene
+                activeProduct={currentProduct}
+                onToggleProduct={() => {
+                  const nextProduct =
+                    currentProduct.id === mockFoodProduct.id
+                      ? mockCosmeticProduct
+                      : mockFoodProduct;
+                  handleProductSwitch(nextProduct);
+                }}
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Main Inspection Result Container */}
+      {/* INTERACTIVE SCANNER CARD (MANUAL BARCODE & PHOTO OCR TABS) */}
+      <section
+        id="scanner-card"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24"
+      >
+        <div className="bg-white rounded-3xl border border-neutral-200/90 p-5 sm:p-6 shadow-sm">
+          {/* Tab Navigation */}
+          <div className="flex items-center gap-3 border-b border-neutral-100 pb-4 mb-5">
+            <button
+              type="button"
+              onClick={() => setActiveTab('barcode')}
+              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                activeTab === 'barcode'
+                  ? 'bg-[#27AE60] text-white shadow-sm'
+                  : 'bg-[#F9FAF8] text-neutral-600 hover:text-neutral-900 border border-neutral-200'
+              }`}
+            >
+              <Barcode className="w-4 h-4" />
+              <span>Tab A — Manual Barcode Entry</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveTab('ocr')}
+              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                activeTab === 'ocr'
+                  ? 'bg-[#27AE60] text-white shadow-sm'
+                  : 'bg-[#F9FAF8] text-neutral-600 hover:text-neutral-900 border border-neutral-200'
+              }`}
+            >
+              <UploadCloud className="w-4 h-4" />
+              <span>Tab B — Label Photo Upload (OCR Fallback)</span>
+            </button>
+          </div>
+
+          {/* TAB A: Manual Barcode Entry */}
+          {activeTab === 'barcode' && (
+            <div className="space-y-4">
+              <form onSubmit={handleBarcodeSubmit} className="flex flex-col sm:flex-row gap-3">
+                <div className="relative flex-1">
+                  <Barcode className="w-5 h-5 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={barcodeInput}
+                    onChange={(e) => {
+                      setBarcodeInput(e.target.value);
+                      if (barcodeError) setBarcodeError(null);
+                    }}
+                    placeholder="Enter 8–14 digit barcode (e.g., 8901262010058 or 8904005928114)..."
+                    className="w-full pl-11 pr-4 py-3 text-sm rounded-xl border border-neutral-200 bg-[#F9FAF8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#27AE60] focus:border-transparent font-mono transition-all"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isCheckingBarcode}
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-bold bg-[#27AE60] hover:bg-[#1E8449] text-white shadow-sm transition-all active:scale-[0.98] disabled:opacity-60 shrink-0"
+                >
+                  {isCheckingBarcode ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      <span>Checking Product...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Search className="w-4 h-4" />
+                      <span>Check Product</span>
+                    </>
+                  )}
+                </button>
+              </form>
+
+              {/* Error message */}
+              {barcodeError && (
+                <p className="text-xs text-rose-600 font-medium flex items-center gap-1.5 animate-in fade-in">
+                  <AlertOctagon className="w-3.5 h-3.5" />
+                  <span>{barcodeError}</span>
+                </p>
+              )}
+
+              {/* Helpful Barcode Presets */}
+              <div className="flex flex-wrap items-center gap-2 pt-1 text-xs text-neutral-500">
+                <span className="font-semibold text-neutral-400">Quick Test Barcodes:</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBarcodeInput('8901262010058');
+                    handleProductSwitch(mockFoodProduct);
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-[#F9FAF8] border border-neutral-200 hover:border-emerald-300 font-mono text-[11px] text-neutral-700"
+                >
+                  8901262010058 (Amul Milk)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBarcodeInput('8904005928114');
+                    handleProductSwitch(mockCosmeticProduct);
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-[#F9FAF8] border border-neutral-200 hover:border-rose-300 font-mono text-[11px] text-neutral-700"
+                >
+                  8904005928114 (Herbal Silk Shampoo)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBarcodeInput('8901262031164');
+                    handleBarcodeSubmit();
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-[#F9FAF8] border border-neutral-200 hover:border-emerald-300 font-mono text-[11px] text-neutral-700"
+                >
+                  8901262031164 (Generic EAN-13)
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* TAB B: Label Photo Upload (OCR Fallback) */}
+          {activeTab === 'ocr' && (
+            <div className="space-y-4">
+              <div
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setDragActive(true);
+                }}
+                onDragLeave={() => setDragActive(false)}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setDragActive(false);
+                  if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                    handleFileChange(e.dataTransfer.files[0]);
+                  }
+                }}
+                onClick={() => fileInputRef.current?.click()}
+                className={`p-6 sm:p-8 rounded-2xl border-2 border-dashed text-center cursor-pointer transition-all ${
+                  dragActive
+                    ? 'border-[#27AE60] bg-[#27AE60]/5'
+                    : 'border-neutral-200 hover:border-emerald-300 bg-[#F9FAF8]'
+                }`}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      handleFileChange(e.target.files[0]);
+                    }
+                  }}
+                  className="hidden"
+                />
+
+                {previewUrl ? (
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <img
+                      src={previewUrl}
+                      alt="Uploaded package preview"
+                      className="w-24 h-24 object-cover rounded-xl border border-neutral-300 shadow-xs"
+                    />
+                    <div className="text-left">
+                      <p className="text-xs font-bold text-neutral-900">{selectedFile?.name}</p>
+                      <p className="text-[11px] text-neutral-500">
+                        {((selectedFile?.size || 0) / (1024 * 1024)).toFixed(2)} MB • Ready for OCR processing
+                      </p>
+                      <span className="text-[11px] text-[#27AE60] font-semibold mt-1 inline-block">
+                        Click to select a different photo
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <div className="w-12 h-12 rounded-2xl bg-[#27AE60]/10 text-[#1E8449] flex items-center justify-center mx-auto">
+                      <ImageIcon className="w-6 h-6 text-[#27AE60]" />
+                    </div>
+                    <p className="text-sm font-bold text-neutral-800">
+                      Drag and drop package photo, or <span className="text-[#27AE60]">browse files</span>
+                    </p>
+                    <p className="text-xs text-neutral-400">
+                      Supports high-resolution JPG, PNG, WEBP of back-of-pack ingredients &amp; MRP panels (max 10MB)
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {ocrError && (
+                <p className="text-xs text-rose-600 font-medium flex items-center gap-1.5 animate-in fade-in">
+                  <AlertOctagon className="w-3.5 h-3.5" />
+                  <span>{ocrError}</span>
+                </p>
+              )}
+
+              {/* Animated 4-step OCR Analysis Progress Flow */}
+              {isAnalyzingOcr && (
+                <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-3 animate-in fade-in">
+                  <div className="flex items-center justify-between text-xs font-bold text-[#1E8449]">
+                    <span className="flex items-center gap-2">
+                      <RefreshCw className="w-4 h-4 animate-spin text-[#27AE60]" />
+                      <span>OCR Pipeline Executing...</span>
+                    </span>
+                    <span>Step {ocrStep + 1} of 4</span>
+                  </div>
+
+                  {/* Progress Bar */}
+                  <div className="w-full bg-emerald-100 rounded-full h-2 overflow-hidden">
+                    <div
+                      className="bg-[#27AE60] h-full transition-all duration-500 ease-out"
+                      style={{ width: `${((ocrStep + 1) / 4) * 100}%` }}
+                    />
+                  </div>
+
+                  {/* 4 Step Items */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-1">
+                    {ocrSteps.map((stepDesc, idx) => {
+                      const isDone = ocrStep > idx;
+                      const isCurrent = ocrStep === idx;
+                      return (
+                        <div
+                          key={idx}
+                          className={`flex items-center gap-2 p-2 rounded-lg transition-all ${
+                            isCurrent
+                              ? 'bg-white font-bold text-[#1E8449] shadow-2xs'
+                              : isDone
+                              ? 'text-neutral-600'
+                              : 'text-neutral-400 opacity-60'
+                          }`}
+                        >
+                          <span
+                            className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0 ${
+                              isDone
+                                ? 'bg-[#27AE60] text-white'
+                                : isCurrent
+                                ? 'bg-emerald-200 text-[#1E8449] animate-pulse'
+                                : 'bg-neutral-200 text-neutral-500'
+                            }`}
+                          >
+                            {isDone ? '✓' : idx + 1}
+                          </span>
+                          <span className="truncate">{stepDesc}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Analyze Button */}
+              <div className="flex items-center justify-between pt-1">
+                <span className="text-xs text-neutral-400">
+                  Extracts text, identifies FSSAI numbers, verifies Rule 6 MRP, and audits ingredients.
+                </span>
+
+                <button
+                  type="button"
+                  onClick={handleStartOcrAnalysis}
+                  disabled={!selectedFile || isAnalyzingOcr}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#27AE60] hover:bg-[#1E8449] text-white shadow-sm transition-all active:scale-[0.98] disabled:opacity-50"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span>Run OCR Analysis</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Toast Notification */}
+        {statusNotification && (
+          <div className="mt-4 p-3.5 rounded-xl bg-emerald-50 text-[#1E8449] text-xs font-bold flex items-center gap-2 animate-in fade-in border border-emerald-200 shadow-2xs">
+            <CheckCircle className="w-4 h-4 text-[#27AE60]" />
+            <span>{statusNotification}</span>
+          </div>
+        )}
+      </section>
+
+      {/* MAIN INSPECTION RESULT CONTAINER */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        {/* PROMINENT RED PERSONALIZED ALERT BANNER (If matched against User Profile) */}
+        {/* PROMINENT RED PERSONALIZED ALLERGEN ALERT BANNER */}
         {personalAlerts.length > 0 && (
           <div className="rounded-2xl bg-rose-50 border-2 border-rose-300 p-4 sm:p-5 text-rose-950 shadow-xs animate-in slide-in-from-top-2 duration-300">
             <div className="flex items-start gap-3">
@@ -804,6 +848,11 @@ export const ProductAnalysisView: React.FC = () => {
           </div>
         </div>
       </main>
+
+      {/* YUKA-STYLE EDITORIAL ALTERNATING FEATURE SHOWCASE BLOCKS */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <FeatureShowcaseCards onSelectProduct={handleProductSwitch} />
+      </section>
     </div>
   );
 };

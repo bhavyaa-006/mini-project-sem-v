@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { mockScanHistory } from '../mockData';
 import { RATING_COLORS, type ScanHistoryItem } from '../types/api';
 import { downloadAuditReport } from '../api/client';
+import { MascotHelper } from '../components/MascotIllustration';
 import {
   History,
   Search,
-  Filter,
   CheckCircle2,
   AlertTriangle,
   ArrowRight,
@@ -143,10 +143,12 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ onSelectProduct }) => 
       {/* History Items Feed */}
       <div className="space-y-3">
         {filteredHistory.length === 0 ? (
-          <div className="p-12 text-center bg-white rounded-3xl border border-neutral-200/80">
-            <Filter className="w-8 h-8 text-neutral-300 mx-auto mb-2" />
-            <h3 className="text-sm font-bold text-neutral-800">No scanned items match your filter</h3>
-            <p className="text-xs text-neutral-500 mt-1">Try clearing filters or search terms.</p>
+          <div className="p-12 text-center bg-white rounded-3xl border border-neutral-200/80 flex flex-col items-center justify-center">
+            <MascotHelper
+              message="No scanned products match this filter. Try clearing your search!"
+              mood="happy"
+              size="md"
+            />
           </div>
         ) : (
           filteredHistory.map((item: ScanHistoryItem) => {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { mockUserProfile } from '../mockData';
 import type { UserProfile } from '../types/api';
+import { MascotHelper } from '../components/MascotIllustration';
 import {
   User,
   Shield,
@@ -70,17 +71,25 @@ export const ProfileView: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header */}
-      <div>
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#27AE60]/10 text-[#1E8449] border border-[#27AE60]/20 mb-1.5">
-          <User className="w-3.5 h-3.5" />
-          <span>Consumer Health Profile</span>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#27AE60]/10 text-[#1E8449] border border-[#27AE60]/20 mb-1.5">
+            <User className="w-3.5 h-3.5" />
+            <span>Consumer Health Profile</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight">
+            Personal Preferences &amp; Allergen Alerts
+          </h1>
+          <p className="text-xs sm:text-sm text-neutral-500 mt-1">
+            Customize ingredient warnings and tailored product alternatives for your household.
+          </p>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight">
-          Personal Preferences &amp; Allergen Alerts
-        </h1>
-        <p className="text-xs sm:text-sm text-neutral-500 mt-1">
-          Customize ingredient warnings and tailored product alternatives for your household.
-        </p>
+
+        <MascotHelper
+          message="Your personal alerts actively protect you while scanning!"
+          mood="happy"
+          size="sm"
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

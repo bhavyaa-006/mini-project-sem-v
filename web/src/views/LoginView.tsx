@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { LeafShieldLogo } from '../components/LeafShieldLogo';
+import { MascotHelper } from '../components/MascotIllustration';
 import { loginWithToken } from '../api/client';
 import {
   LogIn,
@@ -101,11 +102,18 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
   return (
     <div className="min-h-[80vh] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-[#F9FAF8] font-sans">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        {/* Brand Logo */}
-        <div className="inline-flex justify-center mb-3">
-          <LeafShieldLogo size={44} />
+        {/* Brand Logo & Sprout Mascot Helper */}
+        <div className="flex flex-col items-center justify-center mb-3">
+          <LeafShieldLogo size={46} />
+          <div className="mt-3">
+            <MascotHelper
+              message={mode === 'signin' ? "Welcome back! Ready to inspect your pantry?" : "Join SafeScan for verified health insights!"}
+              mood="waving"
+              size="sm"
+            />
+          </div>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight">
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight mt-1">
           {mode === 'signin' ? 'Sign in to SafeScan' : 'Create Consumer Account'}
         </h2>
         <p className="mt-1 text-xs sm:text-sm text-neutral-500">
