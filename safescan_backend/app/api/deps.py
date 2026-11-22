@@ -1,6 +1,7 @@
 """
 FastAPI dependency injection helpers.
 """
+import uuid
 from typing import Generator
 
 from fastapi import Depends, HTTPException, status
@@ -30,7 +31,14 @@ def get_current_user(
     payload = decode_token(token)
     if not payload:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
-    user = db.query(User).filter(User.id == payload.get("sub")).first()
+    
+    sub = payload.get("sub")
+    try:
+        user_uuid = uuid.UUID(sub) if isinstance(sub, str) else sub
+    except (ValueError, TypeError):
+        user_uuid = sub
+
+    user = db.query(User).filter(User.id == user_uuid).first()
     if not user or not user.is_active:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found or inactive")
     return user

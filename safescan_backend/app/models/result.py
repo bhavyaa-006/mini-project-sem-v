@@ -1,6 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Float, Boolean, ForeignKey, Text, DateTime, func
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, String, Float, Boolean, ForeignKey, Text, DateTime, func, Uuid
 from sqlalchemy.orm import relationship
 
 from app.db.base import Base
@@ -9,8 +8,8 @@ from app.db.base import Base
 class Result(Base):
     __tablename__ = "results"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    scan_id = Column(UUID(as_uuid=True), ForeignKey("scans.id", ondelete="CASCADE"), unique=True, nullable=False)
+    id = Column(Uuid, primary_key=True, default=uuid.uuid4)
+    scan_id = Column(Uuid, ForeignKey("scans.id", ondelete="CASCADE"), unique=True, nullable=False)
 
     # Scores
     health_score = Column(Float, nullable=True)

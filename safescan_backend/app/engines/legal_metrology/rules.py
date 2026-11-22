@@ -23,10 +23,10 @@ def _extract_net_qty(text: str):
 
 def _extract_expiry(text: str):
     match = re.search(
-        r"(?:Best Before|Expiry|Exp\.?|Use By)[:\s]*(\d{1,2}[/\-]\d{1,2}[/\-]\d{2,4}|\w{3,9}\s*\d{4})",
+        r"(?:Best Before|Expiry|Exp\.?|Use By)[:\s]*((?:\d{1,2}[/\-])?\d{1,2}[/\-]\d{2,4}|\w{3,9}\s*\d{4})",
         text, re.IGNORECASE
     )
-    return match.group(1) if match else None
+    return match.group(1).strip() if match else None
 
 
 def _extract_batch(text: str):

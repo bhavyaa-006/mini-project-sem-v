@@ -1,6 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, ForeignKey, DateTime, func
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, String, ForeignKey, DateTime, func, Uuid
 from sqlalchemy.orm import relationship
 
 from app.db.base import Base
@@ -9,9 +8,9 @@ from app.db.base import Base
 class Scan(Base):
     __tablename__ = "scans"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    product_id = Column(UUID(as_uuid=True), ForeignKey("products.id", ondelete="SET NULL"), nullable=True)
+    id = Column(Uuid, primary_key=True, default=uuid.uuid4)
+    user_id = Column(Uuid, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    product_id = Column(Uuid, ForeignKey("products.id", ondelete="SET NULL"), nullable=True)
 
     # For OCR scans — uploaded image path
     image_path = Column(String(500), nullable=True)

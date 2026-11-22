@@ -1,6 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Float, DateTime, func, Text
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, String, Float, DateTime, func, Text, Uuid
 from sqlalchemy.orm import relationship
 
 from app.db.base import Base
@@ -9,7 +8,7 @@ from app.db.base import Base
 class Product(Base):
     __tablename__ = "products"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(Uuid, primary_key=True, default=uuid.uuid4)
     barcode = Column(String(50), unique=True, nullable=True, index=True)
     name = Column(String(255), nullable=False)
     brand = Column(String(255), nullable=True)

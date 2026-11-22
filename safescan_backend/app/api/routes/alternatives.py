@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, Query
+import uuid
+from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
@@ -14,9 +15,13 @@ def get_alternatives(
     product_id: str,
     db: Session = Depends(get_db),
 ):
-    product = db.query(Product).filter(Product.id == product_id).first()
+    try:
+        prod_uuid = uuid.UUID(product_id) if isinstance(product_id, str) else product_id
+    except (ValueError, TypeError):
+        prod_uuid = product_id
+
+    product = db.query(Product).filter(Product.id == prod_uuid).first()
     if not product:
-        from fastapi import HTTPException
         raise HTTPException(status_code=404, detail="Product not found")
 
     rows = (

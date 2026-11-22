@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends
+import uuid
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db, require_admin
@@ -22,9 +23,13 @@ def delete_hazard(
     db: Session = Depends(get_db),
     _: User = Depends(require_admin),
 ):
-    record = db.query(HazardIngredient).filter(HazardIngredient.id == hazard_id).first()
+    try:
+        h_uuid = uuid.UUID(hazard_id) if isinstance(hazard_id, str) else hazard_id
+    except (ValueError, TypeError):
+        h_uuid = hazard_id
+
+    record = db.query(HazardIngredient).filter(HazardIngredient.id == h_uuid).first()
     if not record:
-        from fastapi import HTTPException
         raise HTTPException(status_code=404, detail="Hazard ingredient not found")
     db.delete(record)
     db.commit()

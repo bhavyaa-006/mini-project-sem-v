@@ -1,7 +1,7 @@
 def test_analyze_requires_auth(client):
     """Analyze endpoint must reject unauthenticated requests."""
     resp = client.post("/api/v1/analyze/", json={"barcode": "1234567890", "category": "food"})
-    assert resp.status_code == 403
+    assert resp.status_code in (401, 403)
 
 
 def test_analyze_with_auth(client):

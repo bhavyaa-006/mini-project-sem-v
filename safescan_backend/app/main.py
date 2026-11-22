@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from slowapi.errors import RateLimitExceeded
@@ -14,8 +16,16 @@ from app.api.routes import (
     health, auth, product, analyze, scan, profile, history, report, alternatives, admin
 )
 
-# Create all tables on startup (for development; use Alembic for production)
-Base.metadata.create_all(bind=engine)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Create tables if database is available
+    try:
+        Base.metadata.create_all(bind=engine)
+    except Exception as e:
+        print(f"[warning] Could not connect to DB on startup: {e}")
+    yield
+
 
 app = FastAPI(
     title="SafeScan & PackCheck API",
@@ -23,6 +33,7 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
+    lifespan=lifespan,
 )
 
 # ── Rate Limiting ──────────────────────────────────────────────────────────────
