@@ -149,7 +149,7 @@ pytest tests/test_health.py -v
 
 - [x] Phase 1: Foundation, packaging, configuration, schemas, and SQLAlchemy sessions
 - [x] Phase 2: Engine B — health and safety, Nutri-Score, cosmetic matching/scoring, and personal alerts
-- [ ] Hazard DB and OFF/OBF data-source clients
+- [x] Phase 3: Hazard DB and OFF/OBF data-source ingestion
 - [ ] Engine A: Legal Metrology compliance
 - [ ] Alternatives and PDF report engines
 - [ ] OCR preprocessing and extraction pipeline

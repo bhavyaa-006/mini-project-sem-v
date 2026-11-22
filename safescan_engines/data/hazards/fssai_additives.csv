@@ -1,0 +1,7 @@
+canonical_name,aliases,severity,domain,reason,source_url
+Sodium Benzoate,INS 211|E211|Benzoic acid sodium salt,low,food,"Preservative permitted within FSSAI limits; excessive intake may be a concern",https://www.fssai.gov.in/cms/food-safety-and-standards.php
+Tartrazine,INS 102|E102|CI 19140,moderate,food,"Artificial colour potentially associated with sensitivity in some individuals",https://www.fssai.gov.in/cms/food-safety-and-standards.php
+Monosodium Glutamate,INS 621|E621|MSG,low,food,"Flavour enhancer permitted for specified foods and within use limits",https://www.fssai.gov.in/cms/food-safety-and-standards.php
+Butylated Hydroxyanisole,INS 320|E320|BHA,moderate,food,"Antioxidant preservative with restricted use under food standards",https://www.fssai.gov.in/cms/food-safety-and-standards.php
+Butylated Hydroxytoluene,INS 321|E321|BHT,moderate,food,"Antioxidant preservative with restricted use under food standards",https://www.fssai.gov.in/cms/food-safety-and-standards.php
+Aspartame,INS 951|E951,moderate,food,"High-intensity sweetener unsuitable for phenylketonuria",https://www.fssai.gov.in/cms/food-safety-and-standards.php

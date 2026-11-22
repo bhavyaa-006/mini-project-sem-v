@@ -1,0 +1,16 @@
+canonical_name,aliases,severity,domain,reason,source_url
+Methylparaben,Methyl Paraben|E218,low,cosmetic,"Broadly used preservative that may irritate highly sensitive skin",https://cir-safety.org/ingredients/methylparaben
+Ethylparaben,Ethyl Paraben|E214,low,cosmetic,"Preservative with a generally low acute irritation profile",https://cir-safety.org/ingredients/ethylparaben
+Propylparaben,Propyl Paraben|E216,moderate,cosmetic,"Preservative that may raise endocrine-concern questions in some datasets",https://cir-safety.org/ingredients/propylparaben
+Sodium Lauryl Sulfate,SLS|Sodium Dodecyl Sulfate|Sodium Lauryl Sulphate,moderate,cosmetic,"Strong surfactant that can strip oils and irritate sensitive skin",https://cir-safety.org/ingredients/sodium-lauryl-sulfate
+Sodium Laureth Sulfate,SLES|Sodium Lauryl Ether Sulfate,moderate,cosmetic,"Foaming surfactant that may cause irritation or dryness",https://cir-safety.org/ingredients/sodium-laureth-sulfate
+Butylated Hydroxyanisole,BHA|INS 320,moderate,cosmetic,"Antioxidant preservative associated with irritation and long-term safety debate",https://cir-safety.org/ingredients/bha
+Butylated Hydroxytoluene,BHT|INS 321,moderate,cosmetic,"Antioxidant preservative that may irritate sensitive skin",https://cir-safety.org/ingredients/bht
+Triclosan,Triclocarban,high,cosmetic,"Antimicrobial agent restricted or limited in several jurisdictions",https://cir-safety.org/ingredients/triclosan
+Oxybenzone,Benzophenone-3|BP-3,high,cosmetic,"UV filter associated with skin allergy and environmental concerns",https://www.sccs.europa.eu/
+Formaldehyde,FORMALIN,high,cosmetic,"Known sensitiser and carcinogen; direct use is strongly restricted",https://cir-safety.org/ingredients/formaldehyde
+DMDM Hydantoin,DMDM,high,cosmetic,"Formaldehyde-releasing preservative that can trigger allergic reactions",https://cir-safety.org/ingredients/dmdm-hydantoin
+Fragrance,Parfum|Perfume,moderate,cosmetic,"May contain undeclared fragrance allergens and trigger sensitivity",https://www.cosmeticsinfo.org/ingredient/parfum-fragrance/
+Linalool,Linalol,moderate,cosmetic,"Common fragrance allergen in oxidised or repeated exposure",https://ec.europa.eu/growth/sectors/cosmetics_en
+Limonene,D-Limonene,moderate,cosmetic,"Fragrance allergen that may sensitise after oxidation",https://ec.europa.eu/growth/sectors/cosmetics_en
+Denatured Alcohol,Alcohol Denat.|SD Alcohol,low,cosmetic,"Drying solvent that can increase irritation in high concentrations",https://www.cosmeticsinfo.org/ingredient/alcohol/
