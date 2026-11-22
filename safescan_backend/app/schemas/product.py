@@ -1,9 +1,10 @@
-from typing import Optional
-from pydantic import BaseModel
+from typing import Optional, Union
+from uuid import UUID
+from pydantic import BaseModel, ConfigDict
 
 
 class ProductResponse(BaseModel):
-    id: str
+    id: Union[UUID, str]
     barcode: Optional[str] = None
     name: str
     brand: Optional[str] = None
@@ -14,5 +15,4 @@ class ProductResponse(BaseModel):
     ingredients_text: Optional[str] = None
     image_url: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

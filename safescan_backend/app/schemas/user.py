@@ -1,10 +1,10 @@
-from typing import Optional, List
+from typing import Optional, List, Union
 from uuid import UUID
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 
 
 class UserProfileResponse(BaseModel):
-    id: UUID
+    id: Union[UUID, str]
     name: str
     email: EmailStr
     role: str
@@ -14,8 +14,7 @@ class UserProfileResponse(BaseModel):
     scans_count: int = 0
     created_at: str
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class UpdateProfileRequest(BaseModel):
