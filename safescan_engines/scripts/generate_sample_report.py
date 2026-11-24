@@ -9,10 +9,19 @@ from safescan_engines.legal_metrology.compliance import evaluate_legal_metrology
 from safescan_engines.pdf.audit_report import write_audit_pdf
 from safescan_engines.schemas import (
     AuditReportPayload,
+    ClauseCheck,
+    ComplianceResult,
+    ComplianceStatus,
+    CosmeticBand,
+    IngredientHit,
+    NutriGrade,
     NormalizedProduct,
     NutrientProfile,
     ProductDomain,
+    SeverityTier,
 )
+from safescan_engines.health.cosmetic_score import calculate_cosmetic_score
+from safescan_engines.health.ingredient_matcher import HazardEntry
 from safescan_engines.summary.rule_based_summary import generate_rule_based_highlights
 
 
@@ -74,9 +83,67 @@ def main() -> None:
     payload.summary_highlights = generate_rule_based_highlights(
         product, health, compliance
     )
-    output = settings.REPORTS_DIR / "sample_audit_report.pdf"
-    write_audit_pdf(payload, output)
-    print(output)
+    food_output = settings.REPORTS_DIR / "sample_food_audit_report.pdf"
+    write_audit_pdf(payload, food_output)
+    print(food_output)
+
+    cosmetic_catalog = [
+        HazardEntry(
+            canonical_name="Sodium Lauryl Sulfate",
+            aliases=["SLS"],
+            severity=SeverityTier.HIGH,
+            domain=ProductDomain.COSMETIC,
+            reason="Strong surfactant that may irritate sensitive skin",
+        )
+    ]
+    cosmetic_product = NormalizedProduct(
+        barcode="8909876543210",
+        name="Sample Sensitive Shampoo",
+        brand="SafeScan Personal Care",
+        domain=ProductDomain.COSMETIC,
+        category="shampoo",
+        ingredients_raw="Aqua, Sodium Lauryl Sulfate",
+        ingredients_list=["Aqua", "Sodium Lauryl Sulfate"],
+        source="manual",
+    )
+    cosmetic_health = calculate_cosmetic_score(
+        cosmetic_product.ingredients_raw,
+        cosmetic_product.ingredients_list,
+        cosmetic_catalog,
+    )
+    cosmetic_compliance = ComplianceResult(
+        overall_status=ComplianceStatus.FAIL,
+        dual_mrp_detected=True,
+        checks=[
+            ClauseCheck(
+                clause_id="6(1)(c)",
+                title="Net Quantity",
+                status=ComplianceStatus.PASS,
+                extracted_value="200 ml",
+            ),
+            ClauseCheck(
+                clause_id="6(3)",
+                title="No Tampering / Dual-MRP",
+                status=ComplianceStatus.FAIL,
+                extracted_value="150.0, 180.0",
+                note="Conflicting MRP declarations found.",
+            ),
+        ],
+    )
+    cosmetic_payload = AuditReportPayload(
+        product=cosmetic_product,
+        health=cosmetic_health,
+        compliance=cosmetic_compliance,
+        alternatives=[],
+        summary_highlights=[
+            "Cosmetic Safety Score: 49/100 (Avoid) — capped due to high-severity ingredient.",
+            "Legal Metrology Alert: Dual-MRP declarations require review.",
+        ],
+    )
+    cosmetic_payload.health.personal_alerts = ["Personal alert: avoid fragrance"]
+    cosmetic_output = settings.REPORTS_DIR / "sample_cosmetic_audit_report.pdf"
+    write_audit_pdf(cosmetic_payload, cosmetic_output)
+    print(cosmetic_output)
 
 
 if __name__ == "__main__":

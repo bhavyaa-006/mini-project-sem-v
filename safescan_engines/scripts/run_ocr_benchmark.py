@@ -1,5 +1,11 @@
+import argparse
 import csv
+import sys
 from pathlib import Path
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 from safescan_engines.config import settings
 from safescan_engines.ocr.evaluate import BenchmarkRecord, evaluate_benchmark_rows
@@ -10,11 +16,29 @@ from safescan_engines.ocr.tesseract_ocr import run_tesseract_ocr
 
 
 def main() -> None:
-    ground_truth_path = settings.DATA_DIR / "ocr_test" / "ground_truth.csv"
-    image_dir = settings.DATA_DIR / "ocr_test" / "images"
-    report_path = settings.REPORTS_DIR / "ocr_accuracy.csv"
+    parser = argparse.ArgumentParser(description="Run stratified OCR benchmark")
+    parser.add_argument(
+        "--ground-truth",
+        type=Path,
+        default=settings.DATA_DIR / "ocr_test" / "ground_truth.csv",
+    )
+    parser.add_argument(
+        "--image-dir",
+        type=Path,
+        default=settings.DATA_DIR / "ocr_test" / "images",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=settings.REPORTS_DIR / "ocr_accuracy.csv",
+    )
+    args = parser.parse_args()
+    ground_truth_path = args.ground_truth.resolve()
+    image_dir = args.image_dir.resolve()
+    report_path = args.output.resolve()
 
     records: list[BenchmarkRecord] = []
+    missing_images = 0
     if ground_truth_path.exists():
         with ground_truth_path.open("r", encoding="utf-8-sig", newline="") as handle:
             rows = list(csv.DictReader(handle))
@@ -27,6 +51,8 @@ def main() -> None:
             continue
         image_path = image_dir / image_name
         if not image_path.exists():
+            missing_images += 1
+            print(f"Warning: missing OCR image {image_name}; skipping.")
             continue
         condition = row.get("condition") or "flat"
 

@@ -1,0 +1,11 @@
+product_id,name,domain,expected,actual,match
+food-a-001,Indian Fruit Oats,food,-10/A,-10/A,PASS
+food-b-002,Indian Rolled Oats,food,0/B,0/B,PASS
+food-c-003,Packaged Tea Biscuit,food,19/E,19/E,PASS
+food-d-004,Masala Namkeen,food,25/E,25/E,PASS
+food-e-005,Sweetened Breakfast Cereal,food,27/E,27/E,PASS
+food-protein-006,Protein Rule Check,food,10/C,10/C,PASS
+cosmetic-good-007,Clean Moisturizer,cosmetic,100/Good,100/Good,PASS
+cosmetic-fair-008,Mild Preserved Lotion,cosmetic,90/Good,90/Good,PASS
+cosmetic-caution-009,Irritating Shampoo,cosmetic,49/Caution,49/Caution,PASS
+cosmetic-avoid-010,High Risk Cosmetic,cosmetic,49/Caution,49/Caution,PASS

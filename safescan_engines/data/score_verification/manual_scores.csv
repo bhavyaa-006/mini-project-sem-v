@@ -1,0 +1,11 @@
+product_id,name,domain,energy_kj,sugars_g,saturated_fat_g,sodium_mg,fiber_g,protein_g,fvl_percent,ingredients_raw,expected_raw_or_score,expected_grade_or_band
+food-a-001,Indian Fruit Oats,food,150,2,0.2,20,3,4,90,,-10,A
+food-b-002,Indian Rolled Oats,food,335,4.5,1,90,0.9,1.6,40,,0,B
+food-c-003,Packaged Tea Biscuit,food,1900,25,8,400,2,6,0,,19,E
+food-d-004,Masala Namkeen,food,2000,20,10,800,1,4,0,,25,E
+food-e-005,Sweetened Breakfast Cereal,food,2000,25,10,900,1,2,0,,27,E
+food-protein-006,Protein Rule Check,food,0,0,2.1,900,0.9,8,50,,10,C
+cosmetic-good-007,Clean Moisturizer,cosmetic,,,,,,,,"Aqua, Glycerin",100,Good
+cosmetic-fair-008,Mild Preserved Lotion,cosmetic,,,,,,,,"Aqua, Methylparaben, Methylparaben, Methylparaben",90,Good
+cosmetic-caution-009,Irritating Shampoo,cosmetic,,,,,,,,"Aqua, Sodium Lauryl Sulfate",49,Caution
+cosmetic-avoid-010,High Risk Cosmetic,cosmetic,,,,,,,,"Aqua, Sodium Lauryl Sulfate",49,Caution
