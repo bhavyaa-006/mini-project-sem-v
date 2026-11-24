@@ -25,6 +25,8 @@ class Settings(BaseSettings):
     fuzzy_match_threshold: int = Field(default=85, ge=0, le=100)
     min_fuzzy_token_length: int = Field(default=6, ge=1)
     llm_api_key: str | None = None
+    llm_base_url: str = "https://api.openai.com/v1"
+    llm_model: str = "gpt-4o-mini"
 
     @property
     def ROOT_DIR(self) -> Path:

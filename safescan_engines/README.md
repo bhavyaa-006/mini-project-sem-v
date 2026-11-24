@@ -151,5 +151,5 @@ pytest tests/test_health.py -v
 - [x] Phase 2: Engine B — health and safety, Nutri-Score, cosmetic matching/scoring, and personal alerts
 - [x] Phase 3: Hazard DB and OFF/OBF data-source ingestion
 - [x] Phase 4: Engine A — Legal Metrology compliance
-- [ ] Alternatives and PDF report engines
+- [x] Phase 5: Alternatives, summaries, and PDF audit reports
 - [ ] OCR preprocessing and extraction pipeline
