@@ -35,7 +35,7 @@ def sample_product() -> NormalizedProduct:
         ingredients_raw="oats, sugar",
         ingredients_list=["oats", "sugar"],
         nutrients=NutrientProfile(
-            energy_kj=1900,
+            energy_kcal=454,
             sugars_g=25,
             saturated_fat_g=8,
             sodium_mg=400,

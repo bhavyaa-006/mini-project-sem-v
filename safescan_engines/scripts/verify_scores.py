@@ -53,7 +53,7 @@ def main() -> int:
             domain = row["domain"].strip().lower()
             if domain == "food":
                 nutrients = NutrientProfile(
-                    energy_kj=_float(row["energy_kj"]),
+                    energy_kcal=_float(row["energy_kcal"]),
                     sugars_g=_float(row["sugars_g"]),
                     saturated_fat_g=_float(row["saturated_fat_g"]),
                     sodium_mg=_float(row["sodium_mg"]),

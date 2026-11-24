@@ -52,7 +52,19 @@ def test_normalizer_sodium_fallback_and_missing_fields():
     })
     assert missing.nutrients.sugars_g is None
     assert missing.nutrients.sodium_mg is None
-    assert missing.nutrients.energy_kj is None
+    assert missing.nutrients.energy_kcal is None
+
+    from_kcal = normalize_off_product({
+        "status": 1,
+        "product": {"code": "4", "nutriments": {"energy-kcal_100g": 100}},
+    })
+    assert from_kcal.nutrients.energy_kcal == 100.0
+
+    from_kj = normalize_off_product({
+        "status": 1,
+        "product": {"code": "5", "nutriments": {"energy-kj_100g": 418.4}},
+    })
+    assert abs(from_kj.nutrients.energy_kcal - 100.0) < 0.0001
 
 
 def test_off_and_obf_mock_transport():

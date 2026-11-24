@@ -39,7 +39,7 @@ def test_schema_validation_and_serialization():
     with pytest.raises(ValidationError):
         NormalizedProduct(
             domain=ProductDomain.FOOD,
-            nutrients={"energy_kj": -10},
+            nutrients={"energy_kcal": -10},
         )
 
     product = NormalizedProduct(

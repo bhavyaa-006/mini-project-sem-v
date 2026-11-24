@@ -76,7 +76,7 @@ from safescan_engines.schemas import NutrientProfile
 from safescan_engines.health.nutri_score import calculate_nutri_score
 
 nutrients = NutrientProfile(
-    energy_kj=1900,
+    energy_kcal=454,
     sugars_g=25,
     saturated_fat_g=8,
     sodium_mg=400,

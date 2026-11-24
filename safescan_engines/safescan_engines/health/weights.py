@@ -3,7 +3,18 @@ from typing import Final
 from safescan_engines.schemas import CosmeticBand, NutriGrade, SeverityTier
 
 
-ENERGY_KJ_THRESHOLDS: Final[tuple[float, ...]] = (335, 670, 1005, 1340, 1675, 2010, 2345, 2680, 3015, 3350)
+ENERGY_KCAL_THRESHOLDS: Final[tuple[float, ...]] = (
+    80.0,
+    160.0,
+    240.0,
+    320.0,
+    400.0,
+    480.0,
+    560.0,
+    640.0,
+    720.0,
+    800.0,
+)
 SUGARS_G_THRESHOLDS: Final[tuple[float, ...]] = (4.5, 9.0, 13.5, 18.0, 22.5, 27.0, 31.0, 36.0, 40.0, 45.0)
 SATURATED_FAT_G_THRESHOLDS: Final[tuple[float, ...]] = (1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0)
 SODIUM_MG_THRESHOLDS: Final[tuple[float, ...]] = (90, 180, 270, 360, 450, 540, 630, 720, 810, 900)

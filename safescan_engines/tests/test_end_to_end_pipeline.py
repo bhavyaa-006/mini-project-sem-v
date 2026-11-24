@@ -30,7 +30,7 @@ def test_complete_food_pipeline(db_session):
             "categories_tags": ["en:breakfast-cereals", "en:oatmeal"],
             "ingredients_text": "oats, sugar",
             "nutriments": {
-                "energy-kj_100g": 1900,
+                "energy-kcal_100g": 454,
                 "sugars_100g": 25,
                 "saturated-fat_100g": 8,
                 "sodium_100g": 0.4,
@@ -49,7 +49,7 @@ def test_complete_food_pipeline(db_session):
             "categories_tags": ["en:breakfast-cereals", "en:oatmeal"],
             "ingredients_text": "oats",
             "nutriments": {
-                "energy-kj_100g": 150,
+                "energy-kcal_100g": 36,
                 "sugars_100g": 2,
                 "saturated-fat_100g": 0.2,
                 "sodium_100g": 0.02,

@@ -145,7 +145,7 @@ def build_audit_pdf_bytes(
         rows = [["Nutrient", "Per 100 g"]]
         if nutrients:
             rows.extend([
-                ["Energy", f"{nutrients.energy_kj:.1f} kJ" if nutrients.energy_kj is not None else "N/A"],
+                ["Energy (kcal)", f"{nutrients.energy_kcal:.1f} kcal" if nutrients.energy_kcal is not None else "N/A"],
                 ["Sugars", f"{nutrients.sugars_g:.1f} g" if nutrients.sugars_g is not None else "N/A"],
                 ["Saturated Fat", f"{nutrients.saturated_fat_g:.1f} g" if nutrients.saturated_fat_g is not None else "N/A"],
                 ["Sodium", f"{nutrients.sodium_mg:.1f} mg" if nutrients.sodium_mg is not None else "N/A"],

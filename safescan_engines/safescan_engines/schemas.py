@@ -43,7 +43,7 @@ class DataStatus(str, Enum):
 
 
 class NutrientProfile(BaseModel):
-    energy_kj: float | None = Field(default=None, ge=0)
+    energy_kcal: float | None = Field(default=None, ge=0)
     sugars_g: float | None = Field(default=None, ge=0)
     saturated_fat_g: float | None = Field(default=None, ge=0)
     sodium_mg: float | None = Field(default=None, ge=0)

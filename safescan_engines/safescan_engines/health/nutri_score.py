@@ -1,7 +1,7 @@
 from bisect import bisect_left
 
 from safescan_engines.health.weights import (
-    ENERGY_KJ_THRESHOLDS,
+    ENERGY_KCAL_THRESHOLDS,
     FIBER_G_THRESHOLDS,
     FVL_PERCENT_POINTS,
     NUTRI_SCORE_FVL_EXEMPTION_POINTS,
@@ -48,7 +48,7 @@ def calculate_nutri_score(nutrients: NutrientProfile | None) -> HealthResult:
         return HealthResult(status=DataStatus.INSUFFICIENT_DATA, domain=ProductDomain.FOOD)
 
     values = (
-        nutrients.energy_kj,
+        nutrients.energy_kcal,
         nutrients.sugars_g,
         nutrients.saturated_fat_g,
         nutrients.sodium_mg,
@@ -59,7 +59,7 @@ def calculate_nutri_score(nutrients: NutrientProfile | None) -> HealthResult:
     if any(value is None for value in values):
         return HealthResult(status=DataStatus.INSUFFICIENT_DATA, domain=ProductDomain.FOOD)
 
-    energy_pts = score_strictly_above(nutrients.energy_kj, ENERGY_KJ_THRESHOLDS)
+    energy_pts = score_strictly_above(nutrients.energy_kcal, ENERGY_KCAL_THRESHOLDS)
     sugars_pts = score_strictly_above(nutrients.sugars_g, SUGARS_G_THRESHOLDS)
     sat_fat_pts = score_strictly_above(nutrients.saturated_fat_g, SATURATED_FAT_G_THRESHOLDS)
     sodium_pts = score_strictly_above(nutrients.sodium_mg, SODIUM_MG_THRESHOLDS)

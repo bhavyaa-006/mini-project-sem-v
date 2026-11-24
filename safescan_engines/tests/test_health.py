@@ -23,15 +23,13 @@ from safescan_engines.schemas import (
     ProductDomain,
     SeverityTier,
 )
-from safescan_engines.health.weights import (
-    ENERGY_KJ_THRESHOLDS,
-)
+from safescan_engines.health.weights import ENERGY_KCAL_THRESHOLDS
 
 
 def test_unhealthy_and_healthy_nutri_examples():
     unhealthy = calculate_nutri_score(
         NutrientProfile(
-            energy_kj=1900,
+            energy_kcal=454,
             sugars_g=25,
             saturated_fat_g=8,
             sodium_mg=400,
@@ -45,7 +43,7 @@ def test_unhealthy_and_healthy_nutri_examples():
 
     healthy = calculate_nutri_score(
         NutrientProfile(
-            energy_kj=150,
+            energy_kcal=36,
             sugars_g=2,
             saturated_fat_g=0.2,
             sodium_mg=20,
@@ -59,8 +57,8 @@ def test_unhealthy_and_healthy_nutri_examples():
 
 
 def test_nutri_boundaries_and_grade_edges():
-    assert score_strictly_above(335.0, ENERGY_KJ_THRESHOLDS) == 0
-    assert score_strictly_above(335.1, ENERGY_KJ_THRESHOLDS) == 1
+    assert score_strictly_above(80.0, ENERGY_KCAL_THRESHOLDS) == 0
+    assert score_strictly_above(80.1, ENERGY_KCAL_THRESHOLDS) == 1
     assert score_fvl_percent(40.0) == 0
     assert score_fvl_percent(40.1) == 1
 
@@ -81,7 +79,7 @@ def test_nutri_boundaries_and_grade_edges():
 def test_nutri_insufficient_data():
     result = calculate_nutri_score(
         NutrientProfile(
-            energy_kj=100,
+            energy_kcal=24,
             sugars_g=None,
             saturated_fat_g=1,
             sodium_mg=100,
@@ -96,7 +94,7 @@ def test_nutri_insufficient_data():
 def test_nutri_n_equals_11_protein_rule():
     low_fvl = calculate_nutri_score(
         NutrientProfile(
-            energy_kj=0,
+            energy_kcal=0,
             sugars_g=0,
             saturated_fat_g=2.1,
             sodium_mg=900,
@@ -109,7 +107,7 @@ def test_nutri_n_equals_11_protein_rule():
 
     high_fvl = calculate_nutri_score(
         NutrientProfile(
-            energy_kj=0,
+            energy_kcal=0,
             sugars_g=0,
             saturated_fat_g=2.1,
             sodium_mg=900,

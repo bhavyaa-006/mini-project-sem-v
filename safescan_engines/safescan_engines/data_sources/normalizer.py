@@ -52,10 +52,10 @@ def normalize_off_product(
         if not isinstance(nutriments, dict):
             nutriments = {}
 
-        energy_kj = _safe_float(nutriments.get("energy-kj_100g"))
-        if energy_kj is None:
-            energy_kcal = _safe_float(nutriments.get("energy-kcal_100g"))
-            energy_kj = energy_kcal * 4.184 if energy_kcal is not None else None
+        energy_kcal = _safe_float(nutriments.get("energy-kcal_100g"))
+        if energy_kcal is None:
+            raw_kj = _safe_float(nutriments.get("energy-kj_100g"))
+            energy_kcal = raw_kj / 4.184 if raw_kj is not None else None
 
         sodium_mg = None
         sodium_g = _safe_float(nutriments.get("sodium_100g"))
@@ -75,7 +75,7 @@ def normalize_off_product(
             fvl = min(100.0, max(0.0, fvl))
 
         nutrients = NutrientProfile(
-            energy_kj=energy_kj,
+            energy_kcal=energy_kcal,
             sugars_g=_safe_float(nutriments.get("sugars_100g")),
             saturated_fat_g=_safe_float(nutriments.get("saturated-fat_100g")),
             sodium_mg=sodium_mg,

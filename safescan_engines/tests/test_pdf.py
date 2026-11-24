@@ -22,7 +22,7 @@ def test_food_pdf():
         domain=ProductDomain.FOOD,
         category="cereals",
         nutrients=NutrientProfile(
-            energy_kj=150,
+            energy_kcal=36,
             sugars_g=2,
             saturated_fat_g=0.2,
             sodium_mg=20,

@@ -23,7 +23,7 @@ def make_food():
         name="Masala Oats",
         domain=ProductDomain.FOOD,
         nutrients=NutrientProfile(
-            energy_kj=1900,
+            energy_kcal=454,
             sugars_g=25,
             saturated_fat_g=8,
             sodium_mg=400,
