@@ -152,4 +152,4 @@ pytest tests/test_health.py -v
 - [x] Phase 3: Hazard DB and OFF/OBF data-source ingestion
 - [x] Phase 4: Engine A — Legal Metrology compliance
 - [x] Phase 5: Alternatives, summaries, and PDF audit reports
-- [ ] OCR preprocessing and extraction pipeline
+- [x] Phase 6: OCR preprocessing, extraction, and benchmark pipeline

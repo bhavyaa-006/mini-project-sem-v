@@ -1,0 +1,4 @@
+image_filename,condition,ingredients_gt,mrp_gt,net_quantity_gt,dates_gt,manufacturer_gt,full_text_gt
+flat_sample.jpg,flat,"Sugar, Wheat Flour, Palm Oil","MRP Rs. 50.00 (Incl. of all taxes)",150 g,09/2026,Bengaluru - 560064,
+curved_sample.jpg,curved,"Aqua, Glycerin, Niacinamide","M.R.P. ₹299.00 (Incl. of all taxes)",100 ml,10/2026,Mumbai - 400001,
+glare_sample.jpg,glare,,,,,,
