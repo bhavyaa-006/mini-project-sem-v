@@ -32,7 +32,10 @@ class RoutePlaceholderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final showAction = actionLabel != null && actionRoute != null && (!debugOnlyAction || kDebugMode);
+    final showAction =
+        actionLabel != null &&
+        actionRoute != null &&
+        (!debugOnlyAction || kDebugMode);
 
     return Scaffold(
       appBar: AppBar(title: Text(title)),
@@ -50,19 +53,31 @@ class RoutePlaceholderScreen extends StatelessWidget {
                       children: <Widget>[
                         Icon(icon, size: 64, color: AppColors.primary),
                         const SizedBox(height: AppSpacing.md),
-                        Text(title, textAlign: TextAlign.center, style: AppTypography.headline),
+                        Text(
+                          title,
+                          textAlign: TextAlign.center,
+                          style: AppTypography.headline,
+                        ),
                         const SizedBox(height: AppSpacing.sm),
-                        Text(buildStep, textAlign: TextAlign.center, style: AppTypography.body),
+                        Text(
+                          buildStep,
+                          textAlign: TextAlign.center,
+                          style: AppTypography.body,
+                        ),
                         if (details != null) ...<Widget>[
                           const SizedBox(height: AppSpacing.sm),
-                          Text(details!, textAlign: TextAlign.center, style: AppTypography.bodySmall),
+                          Text(
+                            details!,
+                            textAlign: TextAlign.center,
+                            style: AppTypography.bodySmall,
+                          ),
                         ],
                         if (showAction) ...<Widget>[
                           const SizedBox(height: AppSpacing.lg),
                           PrimaryButton(
                             label: actionLabel!,
                             icon: Icons.route_outlined,
-                            onPressed: () => context.go(actionRoute!),
+                            onPressed: () => context.push(actionRoute!),
                           ),
                         ],
                       ],
@@ -110,11 +125,12 @@ class DebugRouteListScreen extends ConsumerWidget {
         child: ListView.separated(
           padding: const EdgeInsets.all(AppSpacing.md),
           itemCount: routes.length,
-          separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.sm),
+          separatorBuilder: (context, index) =>
+              const SizedBox(height: AppSpacing.sm),
           itemBuilder: (context, index) {
             final entry = routes.entries.elementAt(index);
             return AppCard(
-              onTap: () => context.go(entry.value),
+              onTap: () => context.push(entry.value),
               child: Row(
                 children: <Widget>[
                   Expanded(

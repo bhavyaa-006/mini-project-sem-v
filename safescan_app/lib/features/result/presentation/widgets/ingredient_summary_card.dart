@@ -12,7 +12,11 @@ import '../../data/models/product.dart';
 import '../../data/models/safety_models.dart';
 
 class IngredientSummaryCard extends ConsumerWidget {
-  const IngredientSummaryCard({required this.ingredients, required this.productId, super.key});
+  const IngredientSummaryCard({
+    required this.ingredients,
+    required this.productId,
+    super.key,
+  });
 
   final List<Ingredient> ingredients;
   final String productId;
@@ -43,7 +47,10 @@ class IngredientSummaryCard extends ConsumerWidget {
           Text('Ingredients', style: AppTypography.title),
           const SizedBox(height: AppSpacing.md),
           if (ingredients.isEmpty)
-            Text('Ingredient data is not available for this mock result.', style: AppTypography.bodySmall)
+            Text(
+              'Ingredient data is not available for this mock result.',
+              style: AppTypography.bodySmall,
+            )
           else
             LayoutBuilder(
               builder: (context, constraints) {
@@ -52,7 +59,11 @@ class IngredientSummaryCard extends ConsumerWidget {
                   StatusBadge(status: AppStatus.needsAttention),
                   StatusBadge(status: AppStatus.flagged),
                 ];
-                final labels = <String>['$safe Safe', '$attention Needs attention', '$flagged Flagged'];
+                final labels = <String>[
+                  '$safe Safe',
+                  '$attention Needs attention',
+                  '$flagged Flagged',
+                ];
 
                 return Wrap(
                   spacing: AppSpacing.sm,
@@ -65,7 +76,12 @@ class IngredientSummaryCard extends ConsumerWidget {
               },
             ),
           const SizedBox(height: AppSpacing.lg),
-          PrimaryButton(label: 'View all ingredients', icon: Icons.list_alt_outlined,           onPressed: () => context.go(AppRoutes.ingredientListPath(productId))),
+          PrimaryButton(
+            label: 'View all ingredients',
+            icon: Icons.list_alt_outlined,
+            onPressed: () =>
+                context.push(AppRoutes.ingredientListPath(productId)),
+          ),
         ],
       ),
     );
@@ -80,6 +96,13 @@ class _CountBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisSize: MainAxisSize.min, children: <Widget>[Text(label, style: AppTypography.label), const SizedBox(width: AppSpacing.xs), badge]);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Text(label, style: AppTypography.label),
+        const SizedBox(width: AppSpacing.xs),
+        badge,
+      ],
+    );
   }
 }

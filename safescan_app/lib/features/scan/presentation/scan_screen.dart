@@ -29,7 +29,10 @@ class ScanScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('Choose what to scan', style: AppTypography.headline),
+                      Text(
+                        'Choose what to scan',
+                        style: AppTypography.headline,
+                      ),
                       const SizedBox(height: AppSpacing.xs),
                       Text(
                         'Get safety information quickly from a barcode or product label.',
@@ -76,8 +79,12 @@ class _BarcodeOption extends StatelessWidget {
       title: 'Scan Barcode',
       explanation: 'Scan a product barcode for a fast safety check.',
       icon: Icons.qr_code_scanner,
-      tips: const <String>['Use bright, even lighting', 'Hold the phone steady', 'Keep the barcode flat and in frame'],
-      onTap: () => context.go(AppRoutes.barcodeScanner),
+      tips: const <String>[
+        'Use bright, even lighting',
+        'Hold the phone steady',
+        'Keep the barcode flat and in frame',
+      ],
+      onTap: () => context.push(AppRoutes.barcodeScanner),
     );
   }
 }
@@ -91,8 +98,12 @@ class _LabelOption extends StatelessWidget {
       title: 'Scan Label',
       explanation: 'Upload or photograph an ingredient and nutrition label.',
       icon: Icons.document_scanner_outlined,
-      tips: const <String>['Use bright, even lighting', 'Hold the phone steady', 'Lay the label flat and avoid shadows'],
-      onTap: () => context.go(AppRoutes.labelScanner),
+      tips: const <String>[
+        'Use bright, even lighting',
+        'Hold the phone steady',
+        'Lay the label flat and avoid shadows',
+      ],
+      onTap: () => context.push(AppRoutes.labelScanner),
     );
   }
 }
@@ -138,7 +149,11 @@ class _ScanOptionCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Icon(Icons.check_circle_outline, size: AppSizing.iconSm, color: AppColors.success),
+                const Icon(
+                  Icons.check_circle_outline,
+                  size: AppSizing.iconSm,
+                  color: AppColors.success,
+                ),
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(child: Text(tip, style: AppTypography.bodySmall)),
               ],
@@ -183,8 +198,17 @@ class _HowItWorks extends StatelessWidget {
                 return Column(
                   children: <Widget>[
                     for (var i = 0; i < items.length; i++) ...<Widget>[
-                      Row(children: <Widget>[Icon(items[i].$1, color: AppColors.primary), const SizedBox(width: AppSpacing.sm), Expanded(child: Text(items[i].$2, style: AppTypography.body))]),
-                      if (i < items.length - 1) const SizedBox(height: AppSpacing.sm),
+                      Row(
+                        children: <Widget>[
+                          Icon(items[i].$1, color: AppColors.primary),
+                          const SizedBox(width: AppSpacing.sm),
+                          Expanded(
+                            child: Text(items[i].$2, style: AppTypography.body),
+                          ),
+                        ],
+                      ),
+                      if (i < items.length - 1)
+                        const SizedBox(height: AppSpacing.sm),
                     ],
                   ],
                 );
@@ -197,7 +221,13 @@ class _HowItWorks extends StatelessWidget {
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[Icon(item.$1, color: AppColors.primary), const SizedBox(width: AppSpacing.sm), Flexible(child: Text(item.$2, style: AppTypography.body))],
+                        children: <Widget>[
+                          Icon(item.$1, color: AppColors.primary),
+                          const SizedBox(width: AppSpacing.sm),
+                          Flexible(
+                            child: Text(item.$2, style: AppTypography.body),
+                          ),
+                        ],
                       ),
                     ),
                 ],

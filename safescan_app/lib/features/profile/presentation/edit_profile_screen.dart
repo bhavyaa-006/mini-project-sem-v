@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../core/router/routes.dart';
+import '../../../core/router/navigation.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/utils/auth_validators.dart';
@@ -57,11 +57,28 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     });
     if (_nameError != null || _emailError != null) return;
 
-    final saved = await ref.read(profileProvider.notifier).save(UserProfile(name: _name.text.trim(), email: _email.text.trim(), allergies: _allergies, dietaryPreferences: _dietary, skinType: _skin, ingredientPreferences: _avoid));
+    final saved = await ref
+        .read(profileProvider.notifier)
+        .save(
+          UserProfile(
+            name: _name.text.trim(),
+            email: _email.text.trim(),
+            allergies: _allergies,
+            dietaryPreferences: _dietary,
+            skinType: _skin,
+            ingredientPreferences: _avoid,
+          ),
+        );
     if (!mounted) return;
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(saved ? 'Profile saved successfully.' : 'Profile could not be saved.')));
-    if (saved) context.go(AppRoutes.profile);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          saved ? 'Profile saved successfully.' : 'Profile could not be saved.',
+        ),
+      ),
+    );
+    if (saved) safeGoBack(context, AppRoutes.profile);
   }
 
   @override
@@ -69,7 +86,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     final profile = ref.watch(profileProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit profile'), leading: IconButton(onPressed: () => context.go(AppRoutes.profile), icon: const Icon(Icons.close), tooltip: 'Close')),
+      appBar: AppBar(
+        title: const Text('Edit profile'),
+        leading: IconButton(
+          onPressed: () => safeGoBack(context, AppRoutes.profile),
+          icon: const Icon(Icons.close),
+          tooltip: 'Close',
+        ),
+      ),
       body: profile.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(child: Text(error.toString())),
@@ -88,27 +112,84 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       children: <Widget>[
                         Text('Personal details', style: AppTypography.title),
                         const SizedBox(height: AppSpacing.md),
-                        AppTextField(label: 'Name', controller: _name, errorText: _nameError, onChanged: (_) => setState(() => _nameError = AuthValidators.required(_name.text, 'Name'))),
+                        AppTextField(
+                          label: 'Name',
+                          controller: _name,
+                          errorText: _nameError,
+                          onChanged: (_) => setState(
+                            () => _nameError = AuthValidators.required(
+                              _name.text,
+                              'Name',
+                            ),
+                          ),
+                        ),
                         const SizedBox(height: AppSpacing.md),
-                        AppTextField(label: 'Email', controller: _email, keyboardType: TextInputType.emailAddress, errorText: _emailError, onChanged: (_) => setState(() => _emailError = AuthValidators.email(_email.text))),
+                        AppTextField(
+                          label: 'Email',
+                          controller: _email,
+                          keyboardType: TextInputType.emailAddress,
+                          errorText: _emailError,
+                          onChanged: (_) => setState(
+                            () =>
+                                _emailError = AuthValidators.email(_email.text),
+                          ),
+                        ),
                         const SizedBox(height: AppSpacing.lg),
                         Text('Allergies', style: AppTypography.title),
                         const SizedBox(height: AppSpacing.sm),
-                        AllergySelector(values: _allergies, onChanged: (values) => setState(() => _allergies = values)),
+                        AllergySelector(
+                          values: _allergies,
+                          onChanged: (values) =>
+                              setState(() => _allergies = values),
+                        ),
                         const SizedBox(height: AppSpacing.lg),
                         Text('Dietary preferences', style: AppTypography.title),
                         const SizedBox(height: AppSpacing.sm),
-                        _ChoiceGroup(values: _dietary, options: const <String>['Vegetarian', 'Vegan', 'Jain', 'Low sugar', 'Low sodium', 'Gluten-free'], onChanged: (values) => setState(() => _dietary = values)),
+                        _ChoiceGroup(
+                          values: _dietary,
+                          options: const <String>[
+                            'Vegetarian',
+                            'Vegan',
+                            'Jain',
+                            'Low sugar',
+                            'Low sodium',
+                            'Gluten-free',
+                          ],
+                          onChanged: (values) =>
+                              setState(() => _dietary = values),
+                        ),
                         const SizedBox(height: AppSpacing.lg),
                         Text('Skin type', style: AppTypography.title),
                         const SizedBox(height: AppSpacing.sm),
-                        SkinTypeSelector(value: _skin, onChanged: (value) => setState(() => _skin = value)),
+                        SkinTypeSelector(
+                          value: _skin,
+                          onChanged: (value) => setState(() => _skin = value),
+                        ),
                         const SizedBox(height: AppSpacing.lg),
-                        Text('Ingredients to avoid', style: AppTypography.title),
+                        Text(
+                          'Ingredients to avoid',
+                          style: AppTypography.title,
+                        ),
                         const SizedBox(height: AppSpacing.sm),
-                        _ChoiceGroup(values: _avoid, options: const <String>['Fragrance', 'Parabens', 'Sulphates', 'Palm oil', 'Artificial colours', 'Artificial sweeteners'], onChanged: (values) => setState(() => _avoid = values)),
+                        _ChoiceGroup(
+                          values: _avoid,
+                          options: const <String>[
+                            'Fragrance',
+                            'Parabens',
+                            'Sulphates',
+                            'Palm oil',
+                            'Artificial colours',
+                            'Artificial sweeteners',
+                          ],
+                          onChanged: (values) =>
+                              setState(() => _avoid = values),
+                        ),
                         const SizedBox(height: AppSpacing.lg),
-                        PrimaryButton(label: 'Save changes', icon: Icons.save_outlined, onPressed: _save),
+                        PrimaryButton(
+                          label: 'Save changes',
+                          icon: Icons.save_outlined,
+                          onPressed: _save,
+                        ),
                       ],
                     ),
                   ),
@@ -123,7 +204,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 }
 
 class _ChoiceGroup extends StatelessWidget {
-  const _ChoiceGroup({required this.values, required this.options, required this.onChanged});
+  const _ChoiceGroup({
+    required this.values,
+    required this.options,
+    required this.onChanged,
+  });
 
   final List<String> values;
   final List<String> options;
@@ -131,6 +216,21 @@ class _ChoiceGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(spacing: AppSpacing.sm, runSpacing: AppSpacing.sm, children: <Widget>[for (final item in options) FilterChip(label: Text(item), selected: values.contains(item), onSelected: (selected) { final next = List<String>.from(values); selected ? next.add(item) : next.remove(item); onChanged(next); })]);
+    return Wrap(
+      spacing: AppSpacing.sm,
+      runSpacing: AppSpacing.sm,
+      children: <Widget>[
+        for (final item in options)
+          FilterChip(
+            label: Text(item),
+            selected: values.contains(item),
+            onSelected: (selected) {
+              final next = List<String>.from(values);
+              selected ? next.add(item) : next.remove(item);
+              onChanged(next);
+            },
+          ),
+      ],
+    );
   }
 }

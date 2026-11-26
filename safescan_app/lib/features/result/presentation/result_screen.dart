@@ -42,9 +42,15 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 550));
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 550),
+    );
     _fade = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
-    _slide = Tween<Offset>(begin: const Offset(0, 0.025), end: Offset.zero).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
+    _slide = Tween<Offset>(
+      begin: const Offset(0, 0.025),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
   }
 
   @override
@@ -103,7 +109,11 @@ class _ResultDataView extends StatelessWidget {
             flexibleSpace: LayoutBuilder(
               builder: (context, constraints) {
                 return FlexibleSpaceBar(
-                  titlePadding: const EdgeInsets.only(left: 56, right: 16, bottom: 12),
+                  titlePadding: const EdgeInsets.only(
+                    left: 56,
+                    right: 16,
+                    bottom: 12,
+                  ),
                   title: Text(
                     result.product.name,
                     maxLines: 1,
@@ -111,14 +121,19 @@ class _ResultDataView extends StatelessWidget {
                     style: AppTypography.title,
                   ),
                   background: DecoratedBox(
-                    decoration: const BoxDecoration(color: AppColors.background),
+                    decoration: const BoxDecoration(
+                      color: AppColors.background,
+                    ),
                     child: SafeArea(
                       bottom: false,
                       child: Align(
                         alignment: Alignment.topCenter,
                         child: Padding(
                           padding: const EdgeInsets.only(top: AppSpacing.lg),
-                          child: ProductImage(imageUrl: result.product.imageUrl, size: 112),
+                          child: ProductImage(
+                            imageUrl: result.product.imageUrl,
+                            size: 112,
+                          ),
                         ),
                       ),
                     ),
@@ -131,7 +146,9 @@ class _ResultDataView extends StatelessWidget {
             child: FadeTransition(
               opacity: parent?._fade ?? const AlwaysStoppedAnimation<double>(1),
               child: SlideTransition(
-                position: parent?._slide ?? const AlwaysStoppedAnimation<Offset>(Offset.zero),
+                position:
+                    parent?._slide ??
+                    const AlwaysStoppedAnimation<Offset>(Offset.zero),
                 child: Padding(
                   padding: const EdgeInsets.all(AppSpacing.md),
                   child: Center(
@@ -157,9 +174,14 @@ class _ResultDataView extends StatelessWidget {
                           const SizedBox(height: AppSpacing.lg),
                           WhyScoreSection(explanation: result.explanation),
                           const SizedBox(height: AppSpacing.md),
-                          VerifiedUncertainSection(explanation: result.explanation),
+                          VerifiedUncertainSection(
+                            explanation: result.explanation,
+                          ),
                           const SizedBox(height: AppSpacing.md),
-                          IngredientSummaryCard(ingredients: result.ingredients, productId: result.id),
+                          IngredientSummaryCard(
+                            ingredients: result.ingredients,
+                            productId: result.id,
+                          ),
                           const SizedBox(height: AppSpacing.md),
                           const _Disclaimer(),
                           const SizedBox(height: AppSpacing.xl),
@@ -192,9 +214,20 @@ class _ProductIdentity extends StatelessWidget {
         Text(result.product.brand, style: AppTypography.bodySmall),
         const SizedBox(height: AppSpacing.sm),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
-          decoration: BoxDecoration(color: AppColors.mint, borderRadius: BorderRadius.circular(AppRadius.pill)),
-          child: Text(result.product.category == ProductCategory.food ? 'Food' : 'Cosmetic', style: AppTypography.label.copyWith(color: AppColors.primary)),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.sm,
+            vertical: AppSpacing.xs,
+          ),
+          decoration: BoxDecoration(
+            color: AppColors.mint,
+            borderRadius: BorderRadius.circular(AppRadius.pill),
+          ),
+          child: Text(
+            result.product.category == ProductCategory.food
+                ? 'Food'
+                : 'Cosmetic',
+            style: AppTypography.label.copyWith(color: AppColors.primary),
+          ),
         ),
       ],
     );
@@ -211,22 +244,29 @@ class _SafetySection extends StatelessWidget {
     final status = result.safetyClassification == SafetyClassification.safe
         ? AppStatus.safe
         : result.safetyClassification == SafetyClassification.needsAttention
-            ? AppStatus.needsAttention
-            : result.safetyClassification == SafetyClassification.flagged
-                ? AppStatus.flagged
-                : AppStatus.informationMissing;
+        ? AppStatus.needsAttention
+        : result.safetyClassification == SafetyClassification.flagged
+        ? AppStatus.flagged
+        : AppStatus.informationMissing;
 
     final summary = switch (result.safetyClassification) {
-      SafetyClassification.safe => 'This mock result indicates a generally safe choice.',
-      SafetyClassification.needsAttention => 'Some details need attention before use.',
-      SafetyClassification.flagged => 'This mock result contains points to review.',
-      SafetyClassification.unknown => 'The available information is incomplete.',
+      SafetyClassification.safe =>
+        'This mock result indicates a generally safe choice.',
+      SafetyClassification.needsAttention =>
+        'Some details need attention before use.',
+      SafetyClassification.flagged =>
+        'This mock result contains points to review.',
+      SafetyClassification.unknown =>
+        'The available information is incomplete.',
     };
 
     return AppCard(
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final ring = ScoreRing(score: result.overallSafetyScore, label: 'Safety score');
+          final ring = ScoreRing(
+            score: result.overallSafetyScore,
+            label: 'Safety score',
+          );
           final details = Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -240,9 +280,21 @@ class _SafetySection extends StatelessWidget {
           );
 
           if (constraints.maxWidth < 420) {
-            return Column(children: <Widget>[ring, const SizedBox(height: AppSpacing.sm), details]);
+            return Column(
+              children: <Widget>[
+                ring,
+                const SizedBox(height: AppSpacing.sm),
+                details,
+              ],
+            );
           }
-          return Row(children: <Widget>[ring, const SizedBox(width: AppSpacing.lg), Expanded(child: details)]);
+          return Row(
+            children: <Widget>[
+              ring,
+              const SizedBox(width: AppSpacing.lg),
+              Expanded(child: details),
+            ],
+          );
         },
       ),
     );
@@ -264,7 +316,19 @@ class _FoodScoreSection extends StatelessWidget {
         children: <Widget>[
           NutriScoreBadge(grade: grade),
           const SizedBox(width: AppSpacing.md),
-          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[Text('Nutri-Score', style: AppTypography.title), const SizedBox(height: AppSpacing.xs), Text('Grade $grade — overall food nutritional rating.', style: AppTypography.bodySmall)])),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('Nutri-Score', style: AppTypography.title),
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  'Grade $grade — overall food nutritional rating.',
+                  style: AppTypography.bodySmall,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -285,7 +349,19 @@ class _CosmeticScoreSection extends StatelessWidget {
         children: <Widget>[
           ScoreRing(score: score, label: 'Cosmetic'),
           const SizedBox(width: AppSpacing.md),
-          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[Text('Cosmetic Safety Score', style: AppTypography.title), const SizedBox(height: AppSpacing.xs), Text('$score out of 100 — based on mock ingredient and skin-risk data.', style: AppTypography.bodySmall)])),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('Cosmetic Safety Score', style: AppTypography.title),
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  '$score out of 100 — based on mock ingredient and skin-risk data.',
+                  style: AppTypography.bodySmall,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -303,12 +379,46 @@ class _WarningSection extends ConsumerWidget {
 
     return AppCard(
       child: profile.when(
-        loading: () => Text('Checking personal warnings...', style: AppTypography.bodySmall),
-        error: (_, __) => Text('Personal warnings could not be loaded.', style: AppTypography.bodySmall),
+        loading: () => Text(
+          'Checking personal warnings...',
+          style: AppTypography.bodySmall,
+        ),
+        error: (_, __) => Text(
+          'Personal warnings could not be loaded.',
+          style: AppTypography.bodySmall,
+        ),
         data: (data) {
           const service = PersonalWarningService();
           if (!service.isProfileComplete(data)) {
-            return Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[Text('Personal warnings', style: AppTypography.title), const SizedBox(height: AppSpacing.sm), Container(width: double.infinity, padding: const EdgeInsets.all(AppSpacing.sm), decoration: BoxDecoration(color: AppColors.surfaceVariant, borderRadius: BorderRadius.circular(AppRadius.md)), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[Text('Complete your profile for personalised warnings.', style: AppTypography.body), const SizedBox(height: AppSpacing.xs), TextButton(onPressed: () => context.go(AppRoutes.profile), child: const Text('Go to Profile'))]))]);
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('Personal warnings', style: AppTypography.title),
+                const SizedBox(height: AppSpacing.sm),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceVariant,
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Complete your profile for personalised warnings.',
+                        style: AppTypography.body,
+                      ),
+                      const SizedBox(height: AppSpacing.xs),
+                      TextButton(
+                        onPressed: () => context.push(AppRoutes.profile),
+                        child: const Text('Go to Profile'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
           }
 
           final warnings = service.findWarnings(data, result.ingredients);
@@ -318,23 +428,58 @@ class _WarningSection extends ConsumerWidget {
               Text('Personal warnings', style: AppTypography.title),
               const SizedBox(height: AppSpacing.sm),
               if (warnings.isEmpty)
-                Container(width: double.infinity, padding: const EdgeInsets.all(AppSpacing.sm), decoration: BoxDecoration(color: AppColors.success.withValues(alpha: 0.10), borderRadius: BorderRadius.circular(AppRadius.md)), child: Row(children: <Widget>[const Icon(Icons.check_circle_outline, color: AppColors.success), const SizedBox(width: AppSpacing.sm), Expanded(child: Text('No personal warnings matched this product.', style: AppTypography.bodySmall))]))
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  decoration: BoxDecoration(
+                    color: AppColors.success.withValues(alpha: 0.10),
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      const Icon(
+                        Icons.check_circle_outline,
+                        color: AppColors.success,
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(
+                        child: Text(
+                          'No personal warnings matched this product.',
+                          style: AppTypography.bodySmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               else
                 for (final warning in warnings)
                   Container(
                     width: double.infinity,
                     margin: const EdgeInsets.only(bottom: AppSpacing.sm),
                     padding: const EdgeInsets.all(AppSpacing.sm),
-                    decoration: BoxDecoration(color: AppColors.warning.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(AppRadius.md)),
+                    decoration: BoxDecoration(
+                      color: AppColors.warning.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(AppRadius.md),
+                    ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        const Icon(Icons.warning_amber_rounded, color: AppColors.warning),
+                        const Icon(
+                          Icons.warning_amber_rounded,
+                          color: AppColors.warning,
+                        ),
                         const SizedBox(width: AppSpacing.sm),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[Text(warning.title, style: AppTypography.label), const SizedBox(height: AppSpacing.xs), Text(warning.message, style: AppTypography.bodySmall)],
+                            children: <Widget>[
+                              Text(warning.title, style: AppTypography.label),
+                              const SizedBox(height: AppSpacing.xs),
+                              Text(
+                                warning.message,
+                                style: AppTypography.bodySmall,
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -359,15 +504,36 @@ class _ActionBar extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           final actions = <Widget>[
-            TextButton.icon(onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Saved to mock history'))), icon: const Icon(Icons.bookmark_border), label: const Text('Save')),
-            TextButton.icon(onPressed: () => context.go(AppRoutes.pdfReportPath(result.id)), icon: const Icon(Icons.picture_as_pdf_outlined), label: const Text('Report')),
-            TextButton.icon(onPressed: () => context.go(AppRoutes.alternativesPath(result.id)), icon: const Icon(Icons.compare_arrows), label: const Text('Alternatives')),
+            TextButton.icon(
+              onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Saved to mock history')),
+              ),
+              icon: const Icon(Icons.bookmark_border),
+              label: const Text('Save'),
+            ),
+            TextButton.icon(
+              onPressed: () => context.push(AppRoutes.pdfReportPath(result.id)),
+              icon: const Icon(Icons.picture_as_pdf_outlined),
+              label: const Text('Report'),
+            ),
+            TextButton.icon(
+              onPressed: () =>
+                  context.push(AppRoutes.alternativesPath(result.id)),
+              icon: const Icon(Icons.compare_arrows),
+              label: const Text('Alternatives'),
+            ),
           ];
 
           if (constraints.maxWidth < 420) {
-            return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[for (final action in actions) action]);
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[for (final action in actions) action],
+            );
           }
-          return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: actions);
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: actions,
+          );
         },
       ),
     );

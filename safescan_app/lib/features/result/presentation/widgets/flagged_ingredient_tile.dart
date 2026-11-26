@@ -9,7 +9,11 @@ import '../../../../shared/widgets/status_badge.dart';
 import '../../data/models/safety_models.dart';
 
 class FlaggedIngredientTile extends StatelessWidget {
-  const FlaggedIngredientTile({required this.ingredient, required this.productId, super.key});
+  const FlaggedIngredientTile({
+    required this.ingredient,
+    required this.productId,
+    super.key,
+  });
 
   final Ingredient ingredient;
   final String productId;
@@ -17,10 +21,21 @@ class FlaggedIngredientTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppCard(
-      onTap: () => context.go(AppRoutes.ingredientDetailPath('$productId/${ingredient.name}')),
+      onTap: () => context.push(
+        AppRoutes.ingredientDetailPath('$productId/${ingredient.name}'),
+      ),
       child: Row(
         children: <Widget>[
-          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[Text(ingredient.name, style: AppTypography.title), const SizedBox(height: AppSpacing.xs), Text(ingredient.purpose, style: AppTypography.bodySmall)])),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(ingredient.name, style: AppTypography.title),
+                const SizedBox(height: AppSpacing.xs),
+                Text(ingredient.purpose, style: AppTypography.bodySmall),
+              ],
+            ),
+          ),
           const SizedBox(width: AppSpacing.sm),
           const StatusBadge(status: AppStatus.flagged),
         ],

@@ -40,7 +40,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
     if (_emailError != null || _passwordError != null) return;
 
-    await ref.read(authProvider.notifier).login(AuthCredentials(email: _email.text, password: _password.text));
+    await ref
+        .read(authProvider.notifier)
+        .login(AuthCredentials(email: _email.text, password: _password.text));
   }
 
   @override
@@ -61,7 +63,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               return SingleChildScrollView(
                 padding: const EdgeInsets.all(AppSpacing.lg),
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight - AppSpacing.lg * 2),
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight - AppSpacing.lg * 2,
+                  ),
                   child: Center(
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 480),
@@ -69,20 +73,79 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          Text('Welcome back', style: AppTypography.headline, textAlign: TextAlign.center),
+                          Text(
+                            'Welcome back',
+                            style: AppTypography.headline,
+                            textAlign: TextAlign.center,
+                          ),
                           const SizedBox(height: AppSpacing.xs),
-                          Text('Sign in to continue', style: AppTypography.bodySmall, textAlign: TextAlign.center),
+                          Text(
+                            'Sign in to continue',
+                            style: AppTypography.bodySmall,
+                            textAlign: TextAlign.center,
+                          ),
                           const SizedBox(height: AppSpacing.xl),
-                          AppTextField(label: 'Email', hint: 'name@example.com', controller: _email, keyboardType: TextInputType.emailAddress, errorText: _emailError, onChanged: (_) => setState(() => _emailError = AuthValidators.email(_email.text))),
+                          AppTextField(
+                            label: 'Email',
+                            hint: 'name@example.com',
+                            controller: _email,
+                            keyboardType: TextInputType.emailAddress,
+                            errorText: _emailError,
+                            onChanged: (_) => setState(
+                              () => _emailError = AuthValidators.email(
+                                _email.text,
+                              ),
+                            ),
+                          ),
                           const SizedBox(height: AppSpacing.md),
-                          AppTextField(label: 'Password', controller: _password, obscureText: true, errorText: _passwordError, onChanged: (_) => setState(() => _passwordError = AuthValidators.password(_password.text))),
+                          AppTextField(
+                            label: 'Password',
+                            controller: _password,
+                            obscureText: true,
+                            errorText: _passwordError,
+                            onChanged: (_) => setState(
+                              () => _passwordError = AuthValidators.password(
+                                _password.text,
+                              ),
+                            ),
+                          ),
                           const SizedBox(height: AppSpacing.xs),
-                          Align(alignment: Alignment.centerRight, child: TextButton(onPressed: () => context.go(AppRoutes.forgotPassword), child: const Text('Forgot password?'))),
-                          if (auth.status == AuthStatus.error) ...<Widget>[Text(auth.message ?? 'Login failed.', textAlign: TextAlign.center, style: AppTypography.bodySmall.copyWith(color: AppColors.danger)), const SizedBox(height: AppSpacing.sm)],
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () =>
+                                  context.push(AppRoutes.forgotPassword),
+                              child: const Text('Forgot password?'),
+                            ),
+                          ),
+                          if (auth.status == AuthStatus.error) ...<Widget>[
+                            Text(
+                              auth.message ?? 'Login failed.',
+                              textAlign: TextAlign.center,
+                              style: AppTypography.bodySmall.copyWith(
+                                color: AppColors.danger,
+                              ),
+                            ),
+                            const SizedBox(height: AppSpacing.sm),
+                          ],
                           const SizedBox(height: AppSpacing.sm),
-                          PrimaryButton(label: 'Login', isLoading: auth.status == AuthStatus.loading, onPressed: _submit),
+                          PrimaryButton(
+                            label: 'Login',
+                            isLoading: auth.status == AuthStatus.loading,
+                            onPressed: _submit,
+                          ),
                           const SizedBox(height: AppSpacing.md),
-                          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[const Text('New here?'), TextButton(onPressed: () => context.go(AppRoutes.register), child: const Text('Register'))]),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              const Text('New here?'),
+                              TextButton(
+                                onPressed: () =>
+                                    context.push(AppRoutes.register),
+                                child: const Text('Register'),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),

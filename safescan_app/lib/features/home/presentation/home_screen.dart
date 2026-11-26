@@ -73,14 +73,15 @@ class _HomeDataView extends StatelessWidget {
               SectionHeader(
                 title: 'Recent scans',
                 actionLabel: 'See all',
-                onAction: () => context.go(AppRoutes.history),
+                onAction: () => context.push(AppRoutes.history),
               ),
               const SizedBox(height: AppSpacing.sm),
               if (data.recentScans.isEmpty)
                 const AppCard(
                   child: EmptyState(
                     title: 'No recent scans',
-                    message: 'Scan or upload a product to build your safety history.',
+                    message:
+                        'Scan or upload a product to build your safety history.',
                     icon: Icons.document_scanner_outlined,
                   ),
                 )
@@ -89,10 +90,17 @@ class _HomeDataView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                   child: Column(
                     children: <Widget>[
-                      for (var index = 0; index < data.recentScans.take(5).length; index++) ...<Widget>[
+                      for (
+                        var index = 0;
+                        index < data.recentScans.take(5).length;
+                        index++
+                      ) ...<Widget>[
                         _RecentScanTile(scan: data.recentScans[index]),
                         if (index < data.recentScans.take(5).length - 1)
-                          const Divider(indent: AppSpacing.md, endIndent: AppSpacing.md),
+                          const Divider(
+                            indent: AppSpacing.md,
+                            endIndent: AppSpacing.md,
+                          ),
                       ],
                     ],
                   ),
@@ -120,13 +128,23 @@ class _Header extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const Icon(Icons.notifications_none_outlined, size: AppSizing.iconLg),
+              const Icon(
+                Icons.notifications_none_outlined,
+                size: AppSizing.iconLg,
+              ),
               const SizedBox(height: AppSpacing.sm),
               Text('No notifications', style: AppTypography.headline),
               const SizedBox(height: AppSpacing.xs),
-              Text('You are all caught up.', style: AppTypography.bodySmall, textAlign: TextAlign.center),
+              Text(
+                'You are all caught up.',
+                style: AppTypography.bodySmall,
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: AppSpacing.lg),
-              PrimaryButton(label: 'Done', onPressed: () => Navigator.of(context).pop()),
+              PrimaryButton(
+                label: 'Done',
+                onPressed: () => Navigator.of(context).pop(),
+              ),
             ],
           ),
         ),
@@ -158,7 +176,7 @@ class _Header extends StatelessWidget {
           button: true,
           label: 'Open profile',
           child: InkResponse(
-            onTap: () => context.go(AppRoutes.profile),
+            onTap: () => context.push(AppRoutes.profile),
             radius: AppSizing.iconLg,
             child: const CircleAvatar(
               radius: 22,
@@ -190,17 +208,40 @@ class _ScanCard extends StatelessWidget {
         children: <Widget>[
           Text('Your products.\nYour safety.', style: AppTypography.headline),
           const SizedBox(height: AppSpacing.xs),
-          Text('Check what goes on or into your body.', style: AppTypography.bodySmall),
+          Text(
+            'Check what goes on or into your body.',
+            style: AppTypography.bodySmall,
+          ),
           const SizedBox(height: AppSpacing.md),
           LayoutBuilder(
             builder: (context, constraints) {
               final stacked = constraints.maxWidth < 420;
-              final barcode = PrimaryButton(label: 'Scan Barcode', icon: Icons.qr_code_scanner, onPressed: () => context.go(AppRoutes.barcodeScanner));
-              final upload = SecondaryButton(label: 'Upload Label', icon: Icons.upload_outlined, onPressed: () => context.go(AppRoutes.labelScanner));
+              final barcode = PrimaryButton(
+                label: 'Scan Barcode',
+                icon: Icons.qr_code_scanner,
+                onPressed: () => context.push(AppRoutes.barcodeScanner),
+              );
+              final upload = SecondaryButton(
+                label: 'Upload Label',
+                icon: Icons.upload_outlined,
+                onPressed: () => context.push(AppRoutes.labelScanner),
+              );
               if (stacked) {
-                return Column(children: <Widget>[barcode, const SizedBox(height: AppSpacing.sm), upload]);
+                return Column(
+                  children: <Widget>[
+                    barcode,
+                    const SizedBox(height: AppSpacing.sm),
+                    upload,
+                  ],
+                );
               }
-              return Row(children: <Widget>[Expanded(child: barcode), const SizedBox(width: AppSpacing.sm), Expanded(child: upload)]);
+              return Row(
+                children: <Widget>[
+                  Expanded(child: barcode),
+                  const SizedBox(width: AppSpacing.sm),
+                  Expanded(child: upload),
+                ],
+              );
             },
           ),
         ],
@@ -221,11 +262,35 @@ class _Statistics extends StatelessWidget {
         final width = (constraints.maxWidth - AppSpacing.sm * 2) / 3;
         return Row(
           children: <Widget>[
-            SizedBox(width: width, child: _StatTile(value: '${data.totalScans}', label: 'Total scans', icon: Icons.document_scanner_outlined, color: AppColors.primary)),
+            SizedBox(
+              width: width,
+              child: _StatTile(
+                value: '${data.totalScans}',
+                label: 'Total scans',
+                icon: Icons.document_scanner_outlined,
+                color: AppColors.primary,
+              ),
+            ),
             const SizedBox(width: AppSpacing.sm),
-            SizedBox(width: width, child: _StatTile(value: '${data.safeProducts}', label: 'Safe', icon: Icons.check_circle_outline, color: AppColors.success)),
+            SizedBox(
+              width: width,
+              child: _StatTile(
+                value: '${data.safeProducts}',
+                label: 'Safe',
+                icon: Icons.check_circle_outline,
+                color: AppColors.success,
+              ),
+            ),
             const SizedBox(width: AppSpacing.sm),
-            SizedBox(width: width, child: _StatTile(value: '${data.needingAttention}', label: 'Attention', icon: Icons.warning_amber_rounded, color: AppColors.warning)),
+            SizedBox(
+              width: width,
+              child: _StatTile(
+                value: '${data.needingAttention}',
+                label: 'Attention',
+                icon: Icons.warning_amber_rounded,
+                color: AppColors.warning,
+              ),
+            ),
           ],
         );
       },
@@ -234,7 +299,12 @@ class _Statistics extends StatelessWidget {
 }
 
 class _StatTile extends StatelessWidget {
-  const _StatTile({required this.value, required this.label, required this.icon, required this.color});
+  const _StatTile({
+    required this.value,
+    required this.label,
+    required this.icon,
+    required this.color,
+  });
 
   final String value;
   final String label;
@@ -244,14 +314,22 @@ class _StatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppCard(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.md),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.sm,
+        vertical: AppSpacing.md,
+      ),
       child: Column(
         children: <Widget>[
           Icon(icon, color: color, size: AppSizing.iconMd),
           const SizedBox(height: AppSpacing.xs),
           Text(value, style: AppTypography.headline),
           const SizedBox(height: AppSpacing.xs),
-          Text(label, textAlign: TextAlign.center, style: AppTypography.bodySmall, maxLines: 2),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: AppTypography.bodySmall,
+            maxLines: 2,
+          ),
         ],
       ),
     );
@@ -266,9 +344,12 @@ class _RecentScanTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.go(AppRoutes.productResultPath(scan.id)),
+      onTap: () => context.push(AppRoutes.productResultPath(scan.id)),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
+        ),
         child: Row(
           children: <Widget>[
             const ProductImage(size: 56),
@@ -276,7 +357,16 @@ class _RecentScanTile extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[Text(scan.name, style: AppTypography.title, maxLines: 2, overflow: TextOverflow.ellipsis), const SizedBox(height: AppSpacing.xs), StatusBadge(status: scan.status)],
+                children: <Widget>[
+                  Text(
+                    scan.name,
+                    style: AppTypography.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+                  StatusBadge(status: scan.status),
+                ],
               ),
             ),
             const SizedBox(width: AppSpacing.sm),
@@ -294,9 +384,21 @@ class _TipCards extends StatelessWidget {
   const _TipCards();
 
   static const tips = <Map<String, String>>[
-    {'title': 'Read the whole label', 'body': 'Check serving size, ingredient order and the full ingredient list. Ingredients near the top make up more of the product.'},
-    {'title': 'Know your allergens', 'body': 'Keep a personal allergy list and check both the ingredient list and allergy statements every time.'},
-    {'title': 'Compare, do not guess', 'body': 'Use alternatives and safety scores as guidance, then check your own health needs and verified product details.'},
+    {
+      'title': 'Read the whole label',
+      'body':
+          'Check serving size, ingredient order and the full ingredient list. Ingredients near the top make up more of the product.',
+    },
+    {
+      'title': 'Know your allergens',
+      'body':
+          'Keep a personal allergy list and check both the ingredient list and allergy statements every time.',
+    },
+    {
+      'title': 'Compare, do not guess',
+      'body':
+          'Use alternatives and safety scores as guidance, then check your own health needs and verified product details.',
+    },
   ];
 
   void _openTip(BuildContext context, Map<String, String> tip) {
@@ -313,7 +415,10 @@ class _TipCards extends StatelessWidget {
               const SizedBox(height: AppSpacing.sm),
               Text(tip['body']!, style: AppTypography.body),
               const SizedBox(height: AppSpacing.lg),
-              PrimaryButton(label: 'Done', onPressed: () => Navigator.of(context).pop()),
+              PrimaryButton(
+                label: 'Done',
+                onPressed: () => Navigator.of(context).pop(),
+              ),
             ],
           ),
         ),
@@ -328,7 +433,8 @@ class _TipCards extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: tips.length,
-        separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.sm),
+        separatorBuilder: (context, index) =>
+            const SizedBox(width: AppSpacing.sm),
         itemBuilder: (context, index) {
           final tip = tips[index];
           return SizedBox(
@@ -340,7 +446,12 @@ class _TipCards extends StatelessWidget {
                 children: <Widget>[
                   const Icon(Icons.lightbulb_outline, color: AppColors.primary),
                   const SizedBox(height: AppSpacing.sm),
-                  Text(tip['title']!, style: AppTypography.title, maxLines: 2, overflow: TextOverflow.ellipsis),
+                  Text(
+                    tip['title']!,
+                    style: AppTypography.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
             ),
@@ -366,7 +477,15 @@ class _HomeSkeleton extends StatelessWidget {
           SizedBox(height: AppSpacing.lg),
           SkeletonLoader(width: double.infinity, height: 180),
           SizedBox(height: AppSpacing.lg),
-          Row(children: <Widget>[Expanded(child: SkeletonLoader(height: 100)), SizedBox(width: AppSpacing.sm), Expanded(child: SkeletonLoader(height: 100)), SizedBox(width: AppSpacing.sm), Expanded(child: SkeletonLoader(height: 100))]),
+          Row(
+            children: <Widget>[
+              Expanded(child: SkeletonLoader(height: 100)),
+              SizedBox(width: AppSpacing.sm),
+              Expanded(child: SkeletonLoader(height: 100)),
+              SizedBox(width: AppSpacing.sm),
+              Expanded(child: SkeletonLoader(height: 100)),
+            ],
+          ),
           SizedBox(height: AppSpacing.lg),
           SkeletonLoader(width: 180, height: 24),
           SizedBox(height: AppSpacing.sm),

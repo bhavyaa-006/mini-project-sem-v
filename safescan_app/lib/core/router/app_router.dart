@@ -27,9 +27,13 @@ import '../../features/scan/presentation/widget_gallery_screen.dart';
 import 'placeholder_screen.dart';
 import 'routes.dart';
 
+final RouteObserver<ModalRoute<void>> appRouteObserver =
+    RouteObserver<ModalRoute<void>>();
+
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: AppRoutes.splash,
+    observers: <NavigatorObserver>[appRouteObserver],
     redirect: (context, state) {
       final auth = ref.watch(authProvider);
       final location = state.uri.path;
@@ -67,44 +71,116 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     ),
     routes: <RouteBase>[
       _route(AppRoutes.splash, AppRoutes.splashName, const SplashScreen()),
-      _route(AppRoutes.onboarding, AppRoutes.onboardingName, const OnboardingScreen()),
+      _route(
+        AppRoutes.onboarding,
+        AppRoutes.onboardingName,
+        const OnboardingScreen(),
+      ),
       _route(AppRoutes.login, AppRoutes.loginName, const LoginScreen()),
-      _route(AppRoutes.register, AppRoutes.registerName, const RegisterScreen()),
-      _route(AppRoutes.forgotPassword, AppRoutes.forgotPasswordName, const ForgotPasswordScreen()),
+      _route(
+        AppRoutes.register,
+        AppRoutes.registerName,
+        const RegisterScreen(),
+      ),
+      _route(
+        AppRoutes.forgotPassword,
+        AppRoutes.forgotPasswordName,
+        const ForgotPasswordScreen(),
+      ),
       _route(AppRoutes.home, AppRoutes.homeName, const HomeScreen()),
       _route(AppRoutes.scanHub, AppRoutes.scanHubName, const ScanScreen()),
-      _route(AppRoutes.barcodeScanner, AppRoutes.barcodeScannerName, const BarcodeScannerScreen()),
-      _route(AppRoutes.labelScanner, AppRoutes.labelScannerName, const LabelCaptureScreen()),
+      _route(
+        AppRoutes.barcodeScanner,
+        AppRoutes.barcodeScannerName,
+        const BarcodeScannerScreen(),
+      ),
+      _route(
+        AppRoutes.labelScanner,
+        AppRoutes.labelScannerName,
+        const LabelCaptureScreen(),
+      ),
       GoRoute(
         name: AppRoutes.scanProcessingName,
         path: AppRoutes.scanProcessing,
-        pageBuilder: (context, state) => _transition(context, state, ScanProcessingScreen(barcode: state.pathParameters['barcode'] ?? '')),
+        pageBuilder: (context, state) => _transition(
+          context,
+          state,
+          ScanProcessingScreen(barcode: state.pathParameters['barcode'] ?? ''),
+        ),
       ),
       GoRoute(
         name: AppRoutes.productResultName,
         path: AppRoutes.productResult,
-        pageBuilder: (context, state) => _transition(context, state, ResultScreen(id: state.pathParameters['id'] ?? '')),
+        pageBuilder: (context, state) => _transition(
+          context,
+          state,
+          ResultScreen(id: state.pathParameters['id'] ?? ''),
+        ),
       ),
       GoRoute(
         name: AppRoutes.ingredientListName,
         path: AppRoutes.ingredientList,
-        pageBuilder: (context, state) => _transition(context, state, IngredientListScreen(productId: state.pathParameters['id'] ?? '')),
+        pageBuilder: (context, state) => _transition(
+          context,
+          state,
+          IngredientListScreen(productId: state.pathParameters['id'] ?? ''),
+        ),
       ),
       GoRoute(
         name: AppRoutes.ingredientDetailName,
         path: AppRoutes.ingredientDetail,
-        pageBuilder: (context, state) => _transition(context, state, IngredientDetailScreen(routeId: state.pathParameters['id'] ?? '')),
+        pageBuilder: (context, state) => _transition(
+          context,
+          state,
+          IngredientDetailScreen(routeId: state.pathParameters['id'] ?? ''),
+        ),
       ),
-      _route(AppRoutes.alternatives, AppRoutes.alternativesName, const AlternativesScreen()),
-      GoRoute(name: AppRoutes.alternativesForProductName, path: AppRoutes.alternativesForProduct, pageBuilder: (context, state) => _transition(context, state, AlternativesScreen(productId: state.pathParameters['id']))),
-      _route(AppRoutes.alternativesCompare, AppRoutes.alternativesCompareName, const AlternativesComparisonScreen()),
+      _route(
+        AppRoutes.alternatives,
+        AppRoutes.alternativesName,
+        const AlternativesScreen(),
+      ),
+      GoRoute(
+        name: AppRoutes.alternativesForProductName,
+        path: AppRoutes.alternativesForProduct,
+        pageBuilder: (context, state) => _transition(
+          context,
+          state,
+          AlternativesScreen(productId: state.pathParameters['id']),
+        ),
+      ),
+      _route(
+        AppRoutes.alternativesCompare,
+        AppRoutes.alternativesCompareName,
+        const AlternativesComparisonScreen(),
+      ),
       _route(AppRoutes.history, AppRoutes.historyName, const HistoryScreen()),
       _route(AppRoutes.profile, AppRoutes.profileName, const ProfileScreen()),
-      _route(AppRoutes.editProfile, AppRoutes.editProfileName, const EditProfileScreen()),
-      GoRoute(name: AppRoutes.pdfReportName, path: AppRoutes.pdfReport, pageBuilder: (context, state) => _transition(context, state, ReportScreen(productId: state.pathParameters['id'] ?? ''))),
+      _route(
+        AppRoutes.editProfile,
+        AppRoutes.editProfileName,
+        const EditProfileScreen(),
+      ),
+      GoRoute(
+        name: AppRoutes.pdfReportName,
+        path: AppRoutes.pdfReport,
+        pageBuilder: (context, state) => _transition(
+          context,
+          state,
+          ReportScreen(productId: state.pathParameters['id'] ?? ''),
+        ),
+      ),
       if (kDebugMode) ...<RouteBase>[
-        _route(AppRoutes.debugRoutes, AppRoutes.debugRoutesName, const DebugRouteListScreen()),
-        _route(AppRoutes.widgetGallery, AppRoutes.widgetGalleryName, const WidgetGalleryScreen()),
+        _route(
+          AppRoutes.debugRoutes,
+          AppRoutes.debugRoutesName,
+          const DebugRouteListScreen(),
+        ),
+        _route(
+          AppRoutes.widgetGallery,
+          AppRoutes.widgetGalleryName,
+          const WidgetGalleryScreen(),
+        ),
       ],
     ],
   );
@@ -118,13 +194,23 @@ GoRoute _route(String path, String name, Widget child) {
   );
 }
 
-CustomTransitionPage<void> _transition(BuildContext context, GoRouterState state, Widget child) {
+CustomTransitionPage<void> _transition(
+  BuildContext context,
+  GoRouterState state,
+  Widget child,
+) {
   return CustomTransitionPage<void>(
     key: state.pageKey,
     child: child,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      final slide = Tween<Offset>(begin: const Offset(0.03, 0), end: Offset.zero).animate(CurvedAnimation(parent: animation, curve: Curves.easeOutCubic));
-      return FadeTransition(opacity: animation, child: SlideTransition(position: slide, child: child));
+      final slide = Tween<Offset>(
+        begin: const Offset(0.03, 0),
+        end: Offset.zero,
+      ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOutCubic));
+      return FadeTransition(
+        opacity: animation,
+        child: SlideTransition(position: slide, child: child),
+      );
     },
   );
 }

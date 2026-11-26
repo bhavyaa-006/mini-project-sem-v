@@ -19,7 +19,8 @@ class IngredientListScreen extends ConsumerStatefulWidget {
   final String productId;
 
   @override
-  ConsumerState<IngredientListScreen> createState() => _IngredientListScreenState();
+  ConsumerState<IngredientListScreen> createState() =>
+      _IngredientListScreenState();
 }
 
 class _IngredientListScreenState extends ConsumerState<IngredientListScreen> {
@@ -37,46 +38,84 @@ class _IngredientListScreenState extends ConsumerState<IngredientListScreen> {
     final result = ref.watch(scanResultProvider(widget.productId));
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Ingredients'), leading: IconButton(onPressed: () => context.go(AppRoutes.productResultPath(widget.productId)), tooltip: 'Back to result', icon: const Icon(Icons.arrow_back))),
+      appBar: AppBar(
+        title: const Text('Ingredients'),
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          tooltip: 'Back to result',
+          icon: const Icon(Icons.arrow_back),
+        ),
+      ),
       body: SafeArea(
         child: result.when(
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (_, __) => const Center(child: Text('Ingredient data could not be loaded.')),
+          error: (_, __) =>
+              const Center(child: Text('Ingredient data could not be loaded.')),
           data: (scan) {
             if (scan == null) {
-              return const EmptyState(title: 'No ingredient data', message: 'This product does not have any ingredient information.');
+              return const EmptyState(
+                title: 'No ingredient data',
+                message:
+                    'This product does not have any ingredient information.',
+              );
             }
 
             if (scan.ingredients.isEmpty) {
-              return const EmptyState(title: 'No ingredient data', message: 'This mock result has no ingredient list yet.');
+              return const EmptyState(
+                title: 'No ingredient data',
+                message: 'This mock result has no ingredient list yet.',
+              );
             }
 
-            final filtered = filterIngredients(scan.ingredients, _filter, _search.text);
+            final filtered = filterIngredients(
+              scan.ingredients,
+              _filter,
+              _search.text,
+            );
 
             return LayoutBuilder(
               builder: (context, constraints) {
                 return Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(AppSpacing.md, AppSpacing.md, AppSpacing.md, AppSpacing.sm),
+                      padding: const EdgeInsets.fromLTRB(
+                        AppSpacing.md,
+                        AppSpacing.md,
+                        AppSpacing.md,
+                        AppSpacing.sm,
+                      ),
                       child: TextField(
                         controller: _search,
                         onChanged: (_) => setState(() {}),
-                        decoration: const InputDecoration(prefixIcon: Icon(Icons.search), hintText: 'Search ingredients'),
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.search),
+                          hintText: 'Search ingredients',
+                        ),
                       ),
                     ),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.md,
+                      ),
                       child: Row(
                         children: <Widget>[
                           for (final filter in IngredientFilter.values)
                             Padding(
-                              padding: const EdgeInsets.only(right: AppSpacing.sm),
+                              padding: const EdgeInsets.only(
+                                right: AppSpacing.sm,
+                              ),
                               child: ChoiceChip(
-                                label: Text(switch (filter) { IngredientFilter.all => 'All', IngredientFilter.safe => 'Safe', IngredientFilter.needsAttention => 'Needs attention', IngredientFilter.flagged => 'Flagged' }),
+                                label: Text(switch (filter) {
+                                  IngredientFilter.all => 'All',
+                                  IngredientFilter.safe => 'Safe',
+                                  IngredientFilter.needsAttention =>
+                                    'Needs attention',
+                                  IngredientFilter.flagged => 'Flagged',
+                                }),
                                 selected: _filter == filter,
-                                onSelected: (_) => setState(() => _filter = filter),
+                                onSelected: (_) =>
+                                    setState(() => _filter = filter),
                               ),
                             ),
                         ],
@@ -85,14 +124,21 @@ class _IngredientListScreenState extends ConsumerState<IngredientListScreen> {
                     const SizedBox(height: AppSpacing.sm),
                     Expanded(
                       child: filtered.isEmpty
-                          ? const EmptyState(title: 'No matching ingredients', message: 'Try another filter or search term.')
+                          ? const EmptyState(
+                              title: 'No matching ingredients',
+                              message: 'Try another filter or search term.',
+                            )
                           : ListView.separated(
                               padding: const EdgeInsets.all(AppSpacing.md),
                               itemCount: filtered.length,
-                              separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.sm),
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(height: AppSpacing.sm),
                               itemBuilder: (context, index) {
                                 final ingredient = filtered[index];
-                                return _IngredientTile(ingredient: ingredient, productId: widget.productId);
+                                return _IngredientTile(
+                                  ingredient: ingredient,
+                                  productId: widget.productId,
+                                );
                               },
                             ),
                     ),
@@ -123,10 +169,28 @@ class _IngredientTile extends StatelessWidget {
     };
 
     return AppCard(
-      onTap: () => context.go(AppRoutes.ingredientDetailPath('${productId}/${Uri.encodeComponent(ingredient.name)}')),
+      onTap: () => context.push(
+        AppRoutes.ingredientDetailPath(
+          '${productId}/${Uri.encodeComponent(ingredient.name)}',
+        ),
+      ),
       child: Row(
         children: <Widget>[
-          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[Text(ingredient.name, style: AppTypography.title, maxLines: 2, overflow: TextOverflow.ellipsis), const SizedBox(height: AppSpacing.xs), Text(ingredient.purpose, style: AppTypography.bodySmall)])),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  ingredient.name,
+                  style: AppTypography.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                Text(ingredient.purpose, style: AppTypography.bodySmall),
+              ],
+            ),
+          ),
           const SizedBox(width: AppSpacing.sm),
           StatusBadge(status: status),
           const SizedBox(width: AppSpacing.xs),
